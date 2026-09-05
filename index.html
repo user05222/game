@@ -2,7 +2,6 @@
 <html lang="ko">
 
 <head>
-
 <meta charset="UTF-8">
 
 <meta name="viewport"
@@ -11,1605 +10,1098 @@
                maximum-scale=1.0,
                user-scalable=no">
 
-<title>GAME INVITATION SYSTEM</title>
+<title>Game Invitation</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
 <style>
 
-/* =========================================
-   전체 기본
-========================================= */
-
 * {
     box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
 }
 
 body {
-
-    margin: 0;
-
-    min-height: 100vh;
-
-    display: flex;
-
-    justify-content: center;
-
-    align-items: center;
-
     font-family:
         -apple-system,
         BlinkMacSystemFont,
-        "Apple SD Gothic Neo",
+        "Segoe UI",
         "Noto Sans KR",
         sans-serif;
 
     background:
         radial-gradient(
             circle at top,
-            #172B4D 0%,
-            #0B1220 42%,
-            #05080E 100%
+            #18243d 0%,
+            #0b1020 45%,
+            #05070d 100%
         );
 
-    color: #F1F5FF;
+    color: #f1f5ff;
+}
+
+/* ==============================
+   전체 화면
+============================== */
+
+.screen {
+    position: fixed;
+    inset: 0;
+
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
 
     overflow: hidden;
 }
 
+.screen.active {
+    display: flex;
+}
 
-/* =========================================
-   메인 카드
-========================================= */
+/* ==============================
+   카드
+============================== */
 
 .card {
+    width: min(92vw, 520px);
 
-    width: min(92vw, 420px);
+    background: rgba(16, 24, 39, 0.96);
 
-    max-height: 90vh;
+    border: 1px solid rgba(77, 163, 255, 0.2);
 
-    background:
-        rgba(16,24,39,0.97);
+    border-radius: 26px;
 
-    border:
-        1px solid
-        rgba(77,163,255,0.18);
-
-    border-radius: 28px;
-
-    padding: 30px 24px;
+    padding: 32px 25px;
 
     text-align: center;
 
-    position: relative;
-
-    overflow-y: auto;
-
     box-shadow:
-        0 20px 60px
-        rgba(0,0,0,0.55),
+        0 25px 70px rgba(0, 0, 0, 0.45),
+        0 0 35px rgba(77, 163, 255, 0.08);
 
-        0 0 40px
-        rgba(40,120,220,0.08);
+    position: relative;
+    z-index: 10;
 }
 
+/* ==============================
+   로딩 화면
+============================== */
 
-/* =========================================
-   페이지
-========================================= */
-
-.page {
-
-    display: none;
-
-    animation:
-        fadeIn 0.35s ease;
+.loading-card {
+    background: transparent;
+    border: none;
+    box-shadow: none;
 }
 
-.page.active {
-
-    display: block;
+.loading-title {
+    font-size: 17px;
+    font-weight: 800;
+    letter-spacing: 3px;
+    margin-bottom: 28px;
 }
 
-@keyframes fadeIn {
-
-    from {
-
-        opacity: 0;
-
-        transform:
-            translateY(10px);
-
-    }
-
-    to {
-
-        opacity: 1;
-
-        transform:
-            translateY(0);
-
-    }
-
+.loading-text {
+    color: #8d9bb5;
+    font-size: 14px;
+    margin-bottom: 15px;
 }
 
+.progress-wrap {
+    width: 100%;
+    height: 8px;
 
-/* =========================================
-   제목
-========================================= */
+    background: #1b2538;
 
-h1 {
+    border-radius: 999px;
 
-    font-size: 27px;
+    overflow: hidden;
 
+    margin-bottom: 12px;
+}
+
+.progress-bar {
+    width: 0%;
+    height: 100%;
+
+    background: #4da3ff;
+
+    border-radius: 999px;
+
+    transition: width 0.05s linear;
+}
+
+.progress-percent {
+    font-size: 13px;
+    color: #4da3ff;
+    font-weight: 700;
+}
+
+/* ==============================
+   첫 페이지
+============================== */
+
+.gamepad {
+    font-size: 55px;
+    margin-bottom: 18px;
+}
+
+.title {
+    font-size: 29px;
+    font-weight: 850;
     line-height: 1.4;
-
-    margin:
-        10px 0 16px;
-
-    color: #F1F5FF;
-
-    text-shadow:
-        0 0 15px
-        rgba(77,163,255,0.15);
+    margin-bottom: 30px;
 }
 
-p {
-
-    color: #8D9BB5;
-
-    font-size: 15px;
-
-    line-height: 1.7;
-
-    white-space: pre-line;
-
+.subtitle {
+    color: #8d9bb5;
+    font-size: 14px;
     margin-bottom: 25px;
 }
 
-
-/* =========================================
-   이모지
-========================================= */
-
-.emoji {
-
-    font-size: 55px;
-
-    margin-bottom: 8px;
-
-    animation:
-        bounce 1.5s infinite;
-}
-
-@keyframes bounce {
-
-    0%,100% {
-
-        transform:
-            translateY(0);
-
-    }
-
-    50% {
-
-        transform:
-            translateY(-6px);
-
-    }
-
-}
-
-
-/* =========================================
+/* ==============================
    버튼
-========================================= */
+============================== */
+
+.button-row {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+}
 
 button {
-
     border: none;
+    outline: none;
 
-    border-radius: 15px;
-
-    padding:
-        14px 18px;
-
-    font-size: 15px;
-
-    font-weight: 700;
+    font-family: inherit;
+    font-weight: 800;
 
     cursor: pointer;
 
     transition:
-        transform 0.2s,
-        background 0.2s,
-        box-shadow 0.2s;
-
-    min-height: 50px;
-
-    font-family: inherit;
+        transform 0.18s ease,
+        background 0.18s ease,
+        box-shadow 0.18s ease;
 }
 
-button:active {
-
-    transform:
-        scale(0.96);
-}
-
-.buttons {
-
-    display: flex;
-
-    gap: 10px;
-
-    justify-content: center;
-
-    position: relative;
-}
-
-.yes {
-
-    background:
-        linear-gradient(
-            135deg,
-            #246BCE,
-            #4DA3FF
-        );
-
-    color: white;
-
+.main-btn {
     flex: 1;
 
-    box-shadow:
-        0 6px 20px
-        rgba(36,107,206,0.25);
-}
-
-.yes:hover {
-
-    box-shadow:
-        0 8px 25px
-        rgba(77,163,255,0.35);
-}
-
-.no {
-
-    background: #202A3A;
-
-    color: #AAB7CC;
-
-    flex: 1;
-}
-
-
-/* =========================================
-   로딩 화면
-========================================= */
-
-.loading-page {
-
-    padding:
-        15px 5px;
-}
-
-.loading-logo {
-
-    font-size: 12px;
-
-    letter-spacing: 2.5px;
-
-    font-weight: 900;
-
-    color: #4DA3FF;
-
-    margin-bottom: 28px;
-
-    text-shadow:
-        0 0 15px
-        rgba(77,163,255,0.45);
-}
-
-.loading-emoji {
-
-    font-size: 58px;
-
-    margin-bottom: 18px;
-
-    animation:
-        loadingBounce
-        0.8s infinite alternate;
-}
-
-@keyframes loadingBounce {
-
-    from {
-
-        transform:
-            translateY(0);
-
-    }
-
-    to {
-
-        transform:
-            translateY(-8px);
-
-    }
-
-}
-
-.loading-title {
-
-    font-size: 21px;
-
-    font-weight: 800;
-
-    color: #F1F5FF;
-
-    margin-bottom: 18px;
-}
-
-.loading-text {
-
-    font-size: 14px;
-
-    color: #7888A3;
-
-    margin-bottom: 12px;
-}
-
-.progress-box {
-
-    width: 100%;
-
-    height: 14px;
-
-    background: #202A3A;
-
-    border-radius: 20px;
-
-    overflow: hidden;
-
-    margin-bottom: 10px;
-}
-
-.progress-bar {
-
-    height: 100%;
-
-    width: 0%;
-
-    background:
-        linear-gradient(
-            90deg,
-            #246BCE,
-            #4DA3FF
-        );
-
-    border-radius: 20px;
-
-    box-shadow:
-        0 0 12px
-        rgba(77,163,255,0.6);
-
-    transition:
-        width 0.08s linear;
-}
-
-.percent {
-
-    font-size: 12px;
-
-    color: #62728D;
-}
-
-
-/* =========================================
-   애절 페이지
-========================================= */
-
-.pleading-text {
-
-    font-size: 17px;
-
-    font-weight: 700;
-
-    color: #DCE7F8;
-
-    line-height: 1.8;
-
-    margin-bottom: 25px;
-}
-
-.back-btn {
-
-    background: #202A3A;
-
-    color: #AAB7CC;
-
-    width: 100%;
-
-    margin-top: 10px;
-}
-
-.hint {
-
-    font-size: 12px;
-
-    color: #56657C;
-
-    margin-top: 10px;
-}
-
-
-/* =========================================
-   섹션 제목
-========================================= */
-
-.section-title {
-
-    font-size: 16px;
-
-    font-weight: 800;
-
-    color: #DCE7F8;
-
-    margin:
-        18px 0 10px;
-}
-
-
-/* =========================================
-   날짜
-========================================= */
-
-.choice-grid {
-
-    display: grid;
-
-    grid-template-columns:
-        repeat(2,1fr);
-
-    gap: 10px;
-
-    margin-bottom: 18px;
-}
-
-.choice-btn {
-
-    background: #182233;
-
-    color: #AAB7CC;
-
-    border:
-        2px solid
-        transparent;
-
-    min-height: 60px;
-}
-
-.choice-btn.selected {
-
-    background: #122B4C;
-
-    color: #5CB0FF;
-
-    border-color: #4DA3FF;
-
-    box-shadow:
-        0 0 18px
-        rgba(77,163,255,0.15);
-}
-
-
-/* =========================================
-   시간
-========================================= */
-
-.time-grid {
-
-    display: grid;
-
-    grid-template-columns:
-        repeat(3,1fr);
-
-    gap: 8px;
-
-    margin-bottom: 20px;
-}
-
-.time-btn {
-
-    background: #182233;
-
-    color: #AAB7CC;
-
-    border:
-        2px solid
-        transparent;
-
-    padding: 10px 4px;
-
-    min-height: 45px;
-
-    font-size: 14px;
-}
-
-.time-btn.selected {
-
-    background: #122B4C;
-
-    color: #5CB0FF;
-
-    border-color: #4DA3FF;
-}
-
-
-/* =========================================
-   게임 선택
-========================================= */
-
-.game-grid {
-
-    display: grid;
-
-    grid-template-columns:
-        repeat(2,1fr);
-
-    gap: 10px;
-
-    margin-bottom: 15px;
-}
-
-.game-btn {
-
-    background: #182233;
-
-    color: #DCE7F8;
-
-    min-height: 72px;
-
-    border:
-        2px solid
-        transparent;
-
-    font-size: 14px;
-
-    position: relative;
-}
-
-.game-btn.selected {
-
-    background: #102B4B;
-
-    color: #61B4FF;
-
-    border-color: #4DA3FF;
-
-    box-shadow:
-        0 0 18px
-        rgba(77,163,255,0.15);
-}
-
-.check {
-
-    position: absolute;
-
-    top: 6px;
-
-    right: 7px;
-
-    font-size: 13px;
-
-    color: #4DA3FF;
-}
-
-
-/* =========================================
-   게임 메모
-========================================= */
-
-.game-note {
-
-    min-height: 58px;
-
-    margin:
-        6px 0 15px;
-
-    padding:
-        13px 12px;
-
-    background:
-        linear-gradient(
-            135deg,
-            #162238,
-            #111A2A
-        );
-
-    border:
-        1px solid
-        rgba(77,163,255,0.12);
+    min-height: 54px;
 
     border-radius: 15px;
 
-    color: #8D9BB5;
+    font-size: 16px;
 
-    font-size: 13px;
-
-    line-height: 1.6;
-
-    animation:
-        notePop 0.3s ease;
-}
-
-.game-note strong {
-
-    color: #DCE7F8;
-}
-
-@keyframes notePop {
-
-    from {
-
-        opacity: 0;
-
-        transform:
-            translateY(5px);
-
-    }
-
-    to {
-
-        opacity: 1;
-
-        transform:
-            translateY(0);
-
-    }
-
-}
-
-
-/* =========================================
-   선택 개수
-========================================= */
-
-.selected-count {
-
-    font-size: 12px;
-
-    color: #64738B;
-
-    margin-bottom: 12px;
-}
-
-.selected-count strong {
-
-    color: #4DA3FF;
-}
-
-
-/* =========================================
-   모달
-========================================= */
-
-.modal-bg {
-
-    display: none;
-
-    position: fixed;
-
-    inset: 0;
-
-    background:
-        rgba(0,0,0,0.65);
-
-    z-index: 999;
-
-    justify-content: center;
-
-    align-items: center;
-
-    padding: 25px;
-}
-
-.modal-bg.show {
-
-    display: flex;
-}
-
-.modal {
-
-    width:
-        min(90vw,350px);
-
-    background: #101827;
-
-    border:
-        1px solid
-        rgba(77,163,255,0.25);
-
-    border-radius: 25px;
-
-    padding:
-        27px 22px;
-
-    text-align: center;
+    background: #246bce;
+    color: white;
 
     box-shadow:
-        0 20px 60px
-        rgba(0,0,0,0.6),
-
-        0 0 30px
-        rgba(77,163,255,0.1);
-
-    animation:
-        modalPop 0.3s ease;
+        0 8px 25px rgba(36, 107, 206, 0.25);
 }
 
-@keyframes modalPop {
-
-    from {
-
-        opacity: 0;
-
-        transform:
-            scale(0.85);
-
-    }
-
-    to {
-
-        opacity: 1;
-
-        transform:
-            scale(1);
-
-    }
-
+.main-btn:hover {
+    transform: translateY(-2px);
+    background: #3381eb;
 }
 
-.modal-emoji {
+.no-btn {
+    flex: 1;
 
-    font-size: 50px;
+    min-height: 54px;
 
-    margin-bottom: 10px;
+    border-radius: 15px;
+
+    font-size: 16px;
+
+    background: #202b3f;
+    color: #d9e1ef;
 }
 
-.modal h2 {
-
-    font-size: 23px;
-
-    margin:
-        5px 0 12px;
-
-    color: #F1F5FF;
+.no-btn:hover {
+    background: #29364d;
 }
 
-.modal p {
+/* ==============================
+   두 번째 페이지
+============================== */
 
-    font-size: 14px;
-
-    line-height: 1.7;
-
-    margin:
-        0 0 20px;
-
-    color: #8D9BB5;
+.question-mark {
+    font-size: 60px;
+    margin-bottom: 20px;
 }
 
-.modal button {
+.second-title {
+    font-size: 27px;
+    font-weight: 850;
+    margin-bottom: 15px;
+}
+
+.second-text {
+    font-size: 18px;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+/* 도망가는 버튼 */
+
+.runaway-area {
+    position: relative;
 
     width: 100%;
+    height: 70px;
 
-    background:
-        linear-gradient(
-            135deg,
-            #246BCE,
-            #4DA3FF
-        );
+    margin-top: 8px;
+}
 
+.runaway-btn {
+    position: absolute;
+
+    left: 50%;
+    top: 0;
+
+    transform: translateX(-50%);
+
+    width: 150px;
+    height: 52px;
+
+    border-radius: 15px;
+
+    background: #202b3f;
     color: white;
-}
 
-
-/* =========================================
-   최종 초대장
-========================================= */
-
-.invitation {
-
-    background:
-        linear-gradient(
-            135deg,
-            #111D30,
-            #172338
-        );
-
-    border:
-        1px solid
-        rgba(77,163,255,0.22);
-
-    border-radius: 20px;
-
-    padding:
-        20px 16px;
-
-    margin:
-        20px 0;
-
-    box-shadow:
-        inset 0 0 25px
-        rgba(77,163,255,0.03);
-}
-
-.invitation-title {
-
-    font-size: 12px;
-
-    letter-spacing: 2px;
-
-    color: #4DA3FF;
-
-    margin-bottom: 10px;
-
-    font-weight: 900;
-}
-
-.to {
-
-    font-size: 17px;
-
-    font-weight: 800;
-
-    color: #E7EFFC;
-
-    margin-bottom: 14px;
-}
-
-.info {
-
-    display: flex;
-
-    justify-content: space-between;
-
-    align-items: flex-start;
-
-    gap: 10px;
-
-    padding:
-        10px 4px;
-
-    border-bottom:
-        1px solid
-        rgba(255,255,255,0.06);
-
-    font-size: 14px;
-}
-
-.info:last-child {
-
-    border-bottom: none;
-}
-
-.info span:first-child {
-
-    color: #71819A;
+    font-size: 15px;
 
     white-space: nowrap;
 }
 
-.info span:last-child {
+/* ==============================
+   날짜 / 시간
+============================== */
 
-    color: #DCE7F8;
-
-    font-weight: 700;
-
-    text-align: right;
+.question-title {
+    font-size: 27px;
+    font-weight: 850;
+    margin-bottom: 28px;
 }
 
+.section-label {
+    font-size: 14px;
+    color: #8d9bb5;
+    margin-bottom: 12px;
+}
 
-/* =========================================
-   PARTY READY
-========================================= */
+.date-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
 
-.party-ready {
+    margin-bottom: 28px;
+}
 
-    display: inline-block;
+.date-btn {
+    min-height: 64px;
 
-    padding:
-        7px 13px;
+    border-radius: 16px;
 
-    border-radius: 20px;
+    background: #151f31;
+    color: #dfe8f7;
 
-    background: #102B4B;
+    border: 1px solid #25334b;
 
-    border:
-        1px solid
-        rgba(77,163,255,0.25);
+    font-size: 17px;
+}
 
-    color: #4DA3FF;
-
-    font-size: 11px;
-
-    font-weight: 900;
-
-    letter-spacing: 1px;
-
-    margin-bottom: 15px;
+.date-btn.selected {
+    background: #246bce;
+    border-color: #4da3ff;
+    color: white;
 
     box-shadow:
-        0 0 15px
-        rgba(77,163,255,0.1);
+        0 0 20px rgba(77, 163, 255, 0.15);
 }
 
+/* 시간 */
 
-/* =========================================
-   마지막 문구
-========================================= */
+.time-grid {
+    display: grid;
 
-.final-message {
-
-    font-size: 16px;
-
-    line-height: 1.9;
-
-    color: #B8C5D8;
-
-    margin:
-        18px 0;
-}
-
-
-/* =========================================
-   마지막 버튼
-========================================= */
-
-.action-buttons {
-
-    display: flex;
-
-    flex-direction: column;
+    grid-template-columns:
+        repeat(4, 1fr);
 
     gap: 9px;
+
+    margin-bottom: 26px;
 }
 
-.action-buttons button {
+.time-btn {
+    min-height: 48px;
 
-    width: 100%;
+    border-radius: 12px;
+
+    background: #151f31;
+    color: #dfe8f7;
+
+    border: 1px solid #25334b;
+
+    font-size: 13px;
 }
 
-.save {
-
-    background:
-        linear-gradient(
-            135deg,
-            #246BCE,
-            #4DA3FF
-        );
-
+.time-btn.selected {
+    background: #246bce;
+    border-color: #4da3ff;
     color: white;
 }
 
-.share {
+/* ==============================
+   게임 선택
+============================== */
 
-    background: #1B2B43;
-
-    color: #7EC1FF;
-
-    border:
-        1px solid
-        rgba(77,163,255,0.2);
+.game-title {
+    font-size: 27px;
+    font-weight: 850;
+    margin-bottom: 22px;
 }
 
-.edit {
+.game-grid {
+    display: grid;
 
-    background: #202A3A;
+    grid-template-columns: 1fr 1fr;
 
-    color: #8998AD;
+    gap: 12px;
+
+    width: 100%;
+
+    margin-bottom: 25px;
 }
 
+.game-btn {
+    min-height: 78px;
 
-/* =========================================
+    border-radius: 16px;
+
+    background: #151f31;
+
+    border: 1px solid #25334b;
+
+    color: #e8eef9;
+
+    font-size: 15px;
+
+    padding: 10px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+}
+
+.game-btn.selected {
+    background: #246bce;
+
+    border-color: #4da3ff;
+
+    color: white;
+
+    box-shadow:
+        0 0 18px rgba(77, 163, 255, 0.14);
+}
+
+/* ==============================
+   게임 메모
+============================== */
+
+.game-memo {
+    min-height: 44px;
+
+    color: #8d9bb5;
+
+    font-size: 13px;
+
+    line-height: 1.5;
+
+    margin-bottom: 18px;
+}
+
+/* ==============================
+   3개 이상 모달
+============================== */
+
+.modal {
+    position: fixed;
+    inset: 0;
+
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 25px;
+
+    background: rgba(0, 0, 0, 0.68);
+
+    z-index: 100;
+}
+
+.modal.show {
+    display: flex;
+}
+
+.modal-box {
+    width: min(88vw, 390px);
+
+    background: #101827;
+
+    border: 1px solid #334765;
+
+    border-radius: 22px;
+
+    padding: 30px 22px;
+
+    text-align: center;
+
+    box-shadow:
+        0 25px 70px rgba(0,0,0,0.5);
+}
+
+.modal-title {
+    font-size: 25px;
+    font-weight: 900;
+
+    margin-bottom: 12px;
+}
+
+.modal-text {
+    color: #9eabc0;
+
+    font-size: 14px;
+
+    line-height: 1.6;
+
+    margin-bottom: 23px;
+}
+
+.modal-btn {
+    width: 100%;
+
+    height: 50px;
+
+    border-radius: 14px;
+
+    background: #246bce;
+
+    color: white;
+
+    font-size: 15px;
+}
+
+/* ==============================
+   생성 중 화면
+============================== */
+
+.create-title {
+    font-size: 20px;
+
+    font-weight: 850;
+
+    letter-spacing: 1px;
+
+    margin-bottom: 20px;
+}
+
+.create-text {
+    color: #8d9bb5;
+
+    font-size: 14px;
+
+    margin-bottom: 15px;
+}
+
+/* ==============================
+   마지막 초대장
+============================== */
+
+.invitation-screen {
+    background: #05070d;
+}
+
+.invitation-card {
+    width: min(92vw, 520px);
+
+    min-height: 560px;
+
+    background: white;
+
+    color: #101827;
+
+    border-radius: 28px;
+
+    padding: 45px 30px;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    box-shadow:
+        0 30px 80px rgba(0,0,0,0.45);
+}
+
+.invitation-word {
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: 43px;
+
+    font-weight: 500;
+
+    letter-spacing: 2px;
+
+    margin-bottom: 55px;
+}
+
+.invitation-info {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 18px;
+}
+
+.info-row {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    padding-bottom: 15px;
+
+    border-bottom: 1px solid #e5e8ee;
+
+    font-size: 15px;
+}
+
+.info-label {
+    color: #7a8495;
+
+    font-size: 12px;
+
+    letter-spacing: 1px;
+
+    text-transform: uppercase;
+}
+
+.info-value {
+    font-weight: 750;
+
+    max-width: 70%;
+
+    text-align: right;
+
+    line-height: 1.5;
+}
+
+/* ==============================
+   마지막 액션 버튼
+============================== */
+
+.action-buttons {
+    width: 100%;
+
+    display: flex;
+
+    gap: 10px;
+
+    margin-top: 35px;
+}
+
+.action-btn {
+    flex: 1;
+
+    height: 48px;
+
+    border-radius: 13px;
+
+    background: #101827;
+
+    color: white;
+
+    font-size: 14px;
+}
+
+.action-btn:hover {
+    background: #246bce;
+}
+
+/* ==============================
    떨어지는 이모지
-========================================= */
+============================== */
 
 .falling {
-
     position: fixed;
 
     top: -40px;
 
     pointer-events: none;
 
-    animation:
-        fall linear forwards;
+    z-index: 2;
 
-    z-index: 1;
+    animation: fall linear forwards;
+
+    opacity: 0.75;
 }
 
 @keyframes fall {
 
-    from {
-
+    0% {
         transform:
             translateY(-50px)
             rotate(0deg);
-
+        opacity: 0;
     }
 
-    to {
+    10% {
+        opacity: 0.8;
+    }
 
+    100% {
         transform:
             translateY(110vh)
             rotate(360deg);
+        opacity: 0;
+    }
+}
 
+/* ==============================
+   모바일
+============================== */
+
+@media (max-width: 420px) {
+
+    .card {
+        padding: 27px 20px;
     }
 
+    .title {
+        font-size: 25px;
+    }
+
+    .question-title,
+    .game-title {
+        font-size: 24px;
+    }
+
+    .time-grid {
+        gap: 7px;
+    }
+
+    .time-btn {
+        min-height: 45px;
+        font-size: 12px;
+    }
+
+    .game-btn {
+        min-height: 72px;
+        font-size: 13px;
+    }
+
+    .invitation-card {
+        min-height: 520px;
+        padding: 35px 23px;
+    }
+
+    .invitation-word {
+        font-size: 37px;
+        margin-bottom: 48px;
+    }
 }
 
 </style>
-
 </head>
 
 
 <body>
 
 
-<div class="card">
+<!-- ==================================================
+     PAGE 0
+     처음 로딩
+================================================== -->
 
+<div class="screen active" id="page0">
 
-<!-- =========================================
-     PAGE 0 : 로딩
-========================================= -->
+    <div class="card loading-card">
 
-<div class="page active"
-     id="page0">
-
-    <div class="loading-page">
-
-        <div class="loading-logo">
-
+        <div class="loading-title">
             GAME INVITATION SYSTEM
-
         </div>
 
-        <div class="loading-emoji">
-
-            🎮
-
-        </div>
-
-        <div class="loading-title"
-             id="loadingTitle">
-
+        <div class="loading-text" id="loadingText">
             초대장을 준비하는 중...
+        </div>
+
+        <div class="progress-wrap">
+
+            <div
+                class="progress-bar"
+                id="loadingBar">
+            </div>
 
         </div>
 
-        <div class="loading-text"
-             id="loadingText">
+        <div
+            class="progress-percent"
+            id="loadingPercent">
+            0%
+        </div>
 
-            잠시만 기다려주세요
+    </div>
+
+</div>
+
+
+<!-- ==================================================
+     PAGE 1
+     첫 페이지
+================================================== -->
+
+<div class="screen" id="page1">
+
+    <div class="card">
+
+        <div class="gamepad">
+            🎮
+        </div>
+
+        <div class="title">
+            나랑 같이 게임 할래?
+        </div>
+
+        <div class="button-row">
+
+            <button
+                class="main-btn"
+                onclick="goToPage(3)">
+                좋아
+            </button>
+
+            <button
+                class="no-btn"
+                onclick="goToPage(2)">
+                싫어
+            </button>
 
         </div>
 
-        <div class="progress-box">
+    </div>
 
-            <div class="progress-bar"
-                 id="progressBar">
+</div>
+
+
+<!-- ==================================================
+     PAGE 2
+     싫어 선택시
+================================================== -->
+
+<div class="screen" id="page2">
+
+    <div class="card">
+
+        <div class="question-mark">
+            ⁉️
+        </div>
+
+        <div class="second-title">
+            잠깐만!
+        </div>
+
+        <div class="second-text">
+            정말 싫어? 나랑 같이 하자 😭
+        </div>
+
+        <div class="button-row">
+
+            <button
+                class="main-btn"
+                onclick="goToPage(3)">
+                알겠어
+            </button>
+
+        </div>
+
+        <div class="runaway-area">
+
+            <button
+                class="runaway-btn"
+                id="runawayButton">
+                싫어
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ==================================================
+     PAGE 3
+     날짜 / 시간
+================================================== -->
+
+<div class="screen" id="page3">
+
+    <div class="card">
+
+        <div class="question-title">
+            언제가 좋아?
+        </div>
+
+
+        <div class="section-label">
+            날짜 선택
+        </div>
+
+        <div class="date-grid">
+
+            <button
+                class="date-btn"
+                data-date="9월 6일"
+                onclick="selectDate(this)">
+                9월 6일
+            </button>
+
+            <button
+                class="date-btn"
+                data-date="9월 7일"
+                onclick="selectDate(this)">
+                9월 7일
+            </button>
+
+        </div>
+
+
+        <div class="section-label">
+            시간 선택
+        </div>
+
+        <div
+            class="time-grid"
+            id="timeGrid">
+        </div>
+
+
+        <button
+            class="main-btn"
+            onclick="nextToGame()">
+            다음
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- ==================================================
+     PAGE 4
+     게임 선택
+================================================== -->
+
+<div class="screen" id="page4">
+
+    <div class="card">
+
+        <div class="game-title">
+            나랑 어떤 게임이 하고싶어?
+        </div>
+
+        <div
+            class="game-grid"
+            id="gameGrid">
+
+        </div>
+
+        <div
+            class="game-memo"
+            id="gameMemo">
+            원하는 게임 하나 이상 골라봐
+        </div>
+
+        <button
+            class="main-btn"
+            onclick="finishGameSelection()">
+            선택 완료
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- ==================================================
+     PAGE 4 → 3개 이상 모달
+================================================== -->
+
+<div
+    class="modal"
+    id="gameModal">
+
+    <div class="modal-box">
+
+        <div class="modal-title">
+            응, 다 할거야 😎
+        </div>
+
+        <div class="modal-text">
+            진짜 다 할 거야?<br>
+            좋아. 어디 한번 해보자.
+        </div>
+
+        <button
+            class="modal-btn"
+            onclick="closeGameModal()">
+            그래, 다 하자
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- ==================================================
+     PAGE 5
+     초대장 생성
+================================================== -->
+
+<div class="screen" id="page5">
+
+    <div class="card loading-card">
+
+        <div class="create-title">
+            초대장을 생성하는 중...
+        </div>
+
+        <div class="create-text">
+            잠시만 기다려줘
+        </div>
+
+        <div class="progress-wrap">
+
+            <div
+                class="progress-bar"
+                id="createBar">
+            </div>
+
+        </div>
+
+        <div
+            class="progress-percent"
+            id="createPercent">
+            0%
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ==================================================
+     PAGE 6
+     최종 초대장
+================================================== -->
+
+<div
+    class="screen invitation-screen"
+    id="page6">
+
+    <div
+        class="invitation-card"
+        id="invitationCard">
+
+        <div class="invitation-word">
+            Invitation
+        </div>
+
+        <div
+            class="invitation-info">
+
+            <div class="info-row">
+
+                <div class="info-label">
+                    DATE
+                </div>
+
+                <div
+                    class="info-value"
+                    id="finalDate">
+                </div>
+
+            </div>
+
+
+            <div class="info-row">
+
+                <div class="info-label">
+                    TIME
+                </div>
+
+                <div
+                    class="info-value"
+                    id="finalTime">
+                </div>
+
+            </div>
+
+
+            <div class="info-row">
+
+                <div class="info-label">
+                    GAME
+                </div>
+
+                <div
+                    class="info-value"
+                    id="finalGame">
+                </div>
 
             </div>
 
         </div>
 
-        <div class="percent"
-             id="percent">
 
-            0%
+        <div class="action-buttons">
+
+            <button
+                class="action-btn"
+                onclick="saveImage()">
+                이미지 저장
+            </button>
+
+            <button
+                class="action-btn"
+                onclick="sharePage()">
+                초대장 공유
+            </button>
 
         </div>
-
-    </div>
-
-</div>
-
-
-<!-- =========================================
-     PAGE 1
-========================================= -->
-
-<div class="page"
-     id="page1">
-
-    <div class="emoji">
-        🎮
-    </div>
-
-    <h1>
-
-        혹시 나랑 같이<br>
-        게임 할래?
-
-    </h1>
-
-    <p>
-
-        나 요즘 같이 게임할 사람 찾고 있는데...
-        혹시 시간 괜찮으면 같이 해줄래?
-
-    </p>
-
-    <div class="buttons">
-
-        <button
-            class="yes"
-            onclick="goToPage(3)">
-
-            좋아🥰
-
-        </button>
-
-        <button
-            class="no"
-            onclick="goToPage(2)">
-
-            싫어🤪
-
-        </button>
-
-    </div>
-
-</div>
-
-
-<!-- =========================================
-     PAGE 2
-========================================= -->
-
-<div class="page"
-     id="page2">
-
-    <div class="emoji">
-
-        😭
-
-    </div>
-
-    <h1>
-
-        잠깐만...⁉️
-
-    </h1>
-
-    <div class="pleading-text">
-
-        정말 싫어...?<br>
-        나랑 같이 하자... 🥹
-
-    </div>
-
-    <p>
-
-        딱 한 판만 해주면 안 될까...?
-        진짜 열심히 할게...
-
-    </p>
-
-    <div class="buttons">
-
-        <button
-            class="yes"
-            onclick="goToPage(3)">
-
-            그래, 같이 하자🥺
-
-        </button>
-
-        <button
-            class="no"
-            id="runawayNo"
-            onclick="moveRunawayButton()">
-
-            싫어🤪
-
-        </button>
-
-    </div>
-
-    <button
-        class="back-btn"
-        onclick="goToPage(1)">
-
-        ← 처음으로 돌아가기
-
-    </button>
-
-    <div class="hint">
-
-        ※ 이제 싫어 버튼을 누르면 무슨 일이 생길지 모릅니다
-
-    </div>
-
-</div>
-
-
-<!-- =========================================
-     PAGE 3 : 날짜 / 시간
-========================================= -->
-
-<div class="page"
-     id="page3">
-
-    <div class="emoji">
-
-        📅
-
-    </div>
-
-    <h1>
-
-        언제 만날까?
-
-    </h1>
-
-
-    <div class="section-title">
-
-        날짜를 골라줘!
-
-    </div>
-
-    <div class="choice-grid">
-
-        <button
-            class="choice-btn"
-            onclick="selectDate('9월 6일',this)">
-
-            📅<br>
-            9월 6일
-
-        </button>
-
-        <button
-            class="choice-btn"
-            onclick="selectDate('9월 7일',this)">
-
-            📅<br>
-            9월 7일
-
-        </button>
-
-    </div>
-
-
-    <div class="section-title">
-
-        시간도 골라줘!
-
-    </div>
-
-    <div class="time-grid"
-         id="timeGrid">
-
-    </div>
-
-
-    <button
-        class="yes"
-        style="width:100%;"
-        onclick="confirmDateTime()">
-
-        다음으로 →
-
-    </button>
-
-</div>
-
-
-<!-- =========================================
-     PAGE 4 : 게임 선택
-========================================= -->
-
-<div class="page"
-     id="page4">
-
-    <div class="emoji">
-
-        🎮
-
-    </div>
-
-    <h1>
-
-        무슨 게임 할까?
-
-    </h1>
-
-    <p>
-
-        하고 싶은 게임을<br>
-        전부 골라봐!
-
-    </p>
-
-
-    <div class="game-grid">
-
-
-        <button
-            class="game-btn"
-            onclick="selectGame('발로란트',this)">
-
-            <span class="check"></span>
-
-            🔫<br>
-            발로란트
-
-        </button>
-
-
-        <button
-            class="game-btn"
-            onclick="selectGame('배틀 그라운드',this)">
-
-            <span class="check"></span>
-
-            🍗<br>
-            배틀 그라운드
-
-        </button>
-
-
-        <button
-            class="game-btn"
-            onclick="selectGame('리그오브레전드',this)">
-
-            <span class="check"></span>
-
-            ⚔️<br>
-            리그오브레전드
-
-        </button>
-
-
-        <button
-            class="game-btn"
-            onclick="selectGame('롤토체스',this)">
-
-            <span class="check"></span>
-
-            ♟️<br>
-            롤토체스
-
-        </button>
-
-
-        <button
-            class="game-btn"
-            onclick="selectGame('오버워치',this)">
-
-            <span class="check"></span>
-
-            💉<br>
-            오버워치
-
-        </button>
-
-
-        <button
-            class="game-btn"
-            onclick="selectGame('로블록스',this)">
-
-            <span class="check"></span>
-
-            🧱<br>
-            로블록스
-
-        </button>
-
-    </div>
-
-
-    <div class="game-note"
-         id="gameNote">
-
-        원하는 게임을 하나 이상 골라봐 👀
-
-    </div>
-
-
-    <div class="selected-count">
-
-        현재 선택:
-        <strong id="selectedCount">
-
-            0개
-
-        </strong>
-
-    </div>
-
-
-    <button
-        class="yes"
-        style="width:100%;"
-        onclick="finishGameSelection()">
-
-        이 게임들로 할게 🎮
-
-    </button>
-
-</div>
-
-
-<!-- =========================================
-     PAGE 5 : 최종 초대장
-========================================= -->
-
-<div class="page"
-     id="page5">
-
-    <div class="emoji">
-
-        💌
-
-    </div>
-
-    <h1>
-
-        초대장
-
-    </h1>
-
-    <div class="party-ready">
-
-        PARTY READY ✓
-
-    </div>
-
-
-    <div class="invitation">
-
-        <div class="invitation-title">
-
-            GAME INVITATION
-
-        </div>
-
-        <div class="to">
-
-            TO. 사랑
-
-        </div>
-
-
-        <div class="info">
-
-            <span>
-                📅 날짜
-            </span>
-
-            <span id="finalDate">
-                -
-            </span>
-
-        </div>
-
-
-        <div class="info">
-
-            <span>
-                ⏰ 시간
-            </span>
-
-            <span id="finalTime">
-                -
-            </span>
-
-        </div>
-
-
-        <div class="info">
-
-            <span>
-                🎮 게임
-            </span>
-
-            <span id="finalGame">
-                -
-            </span>
-
-        </div>
-
-    </div>
-
-
-    <div class="final-message">
-
-        캐리는 못하지만 열심히 할게 💪<br>
-        고마워 💙
-
-    </div>
-
-
-    <div class="action-buttons">
-
-        <button
-            class="save"
-            onclick="saveImage()">
-
-            📸 사진으로 저장하기
-
-        </button>
-
-
-        <button
-            class="share"
-            onclick="shareLink()">
-
-            🔗 링크 공유하기
-
-        </button>
-
-
-        <button
-            class="edit"
-            onclick="goToPage(3)">
-
-            시간 약속 수정하기
-
-        </button>
-
-    </div>
-
-</div>
-
-
-</div>
-
-
-<!-- =========================================
-     3개 이상 선택 모달
-========================================= -->
-
-<div class="modal-bg"
-     id="gameModal">
-
-    <div class="modal">
-
-        <div class="modal-emoji">
-
-            😐
-
-        </div>
-
-        <h2>
-
-            감당 가능하겠니?
-
-        </h2>
-
-        <p>
-
-            벌써 게임을
-            <strong id="modalCount">
-                3개
-            </strong>
-            고르셨습니다.<br><br>
-
-            이 모든 게임을
-            정말 다 할 생각인가요...?<br>
-            나는 상관없긴 한데...
-
-        </p>
-
-        <button
-            onclick="closeModal()">
-
-            응. 다 할 거야 😎
-
-        </button>
 
     </div>
 
@@ -1618,756 +1110,687 @@ button:active {
 
 <script>
 
-
-/* =========================================
-   변수
-========================================= */
+/* ==================================================
+   기본 변수
+================================================== */
 
 let selectedDate = "";
-
 let selectedTime = "";
-
 let selectedGames = [];
 
 let runawayCount = 0;
 
 
-/* =========================================
-   로딩
-========================================= */
-
-function startLoading() {
-
-    let progress = 0;
-
-    const bar =
-        document.getElementById(
-            "progressBar"
-        );
-
-    const percent =
-        document.getElementById(
-            "percent"
-        );
-
-    const title =
-        document.getElementById(
-            "loadingTitle"
-        );
-
-    const text =
-        document.getElementById(
-            "loadingText"
-        );
-
-
-    const interval =
-        setInterval(
-            function() {
-
-                progress++;
-
-                bar.style.width =
-                    progress + "%";
-
-                percent.innerText =
-                    progress + "%";
-
-
-                if (progress === 30) {
-
-                    text.innerText =
-                        "초대장 디자인 불러오는 중...";
-
-                }
-
-
-                if (progress === 60) {
-
-                    text.innerText =
-                        "게임 약속 데이터 확인 중...";
-
-                }
-
-
-                if (progress >= 82 &&
-                    progress < 100) {
-
-                    percent.innerText =
-                        progress + "%";
-
-                }
-
-
-                if (progress >= 100) {
-
-                    clearInterval(interval);
-
-                    title.innerText =
-                        "초대 준비 완료!";
-
-                    text.innerText =
-                        "잠시 후 초대장이 열립니다 💌";
-
-
-                    setTimeout(
-                        function() {
-
-                            goToPage(1);
-
-                        },
-                        700
-                    );
-
-                }
-
-            },
-            18
-        );
-
-}
-
-
-/* =========================================
+/* ==================================================
    페이지 이동
-========================================= */
+================================================== */
 
 function goToPage(pageNumber) {
 
     document
-        .querySelectorAll(".page")
-        .forEach(
-            page => {
+        .querySelectorAll(".screen")
+        .forEach(screen => {
+            screen.classList.remove("active");
+        });
 
-                page.classList.remove(
-                    "active"
-                );
+    document
+        .getElementById("page" + pageNumber)
+        .classList.add("active");
 
-            }
-        );
-
-
-    const target =
-        document.getElementById(
-            "page" + pageNumber
-        );
-
-
-    if (!target) return;
-
-
-    target.classList.add(
-        "active"
-    );
-
+    if (pageNumber === 2) {
+        resetRunawayButton();
+    }
 
     if (pageNumber === 3) {
-
         createTimeButtons();
-
     }
-
 
     if (pageNumber === 4) {
+        createGameButtons();
+    }
 
-        createFallingEmojis();
+    if (pageNumber === 6) {
+        startFallingEmojis();
+    }
+}
+
+
+/* ==================================================
+   처음 로딩
+================================================== */
+
+let loadingProgress = 0;
+
+const loadingInterval = setInterval(() => {
+
+    loadingProgress++;
+
+    document.getElementById("loadingBar").style.width =
+        loadingProgress + "%";
+
+    document.getElementById("loadingPercent").innerText =
+        loadingProgress + "%";
+
+
+    if (loadingProgress >= 35) {
+
+        document.getElementById("loadingText").innerText =
+            "게임 초대장을 불러오는 중...";
+    }
+
+
+    if (loadingProgress >= 70) {
+
+        document.getElementById("loadingText").innerText =
+            "초대장을 거의 다 만들었어...";
+    }
+
+
+    if (loadingProgress >= 100) {
+
+        clearInterval(loadingInterval);
+
+        document.getElementById("loadingText").innerText =
+            "초대 준비 완료!";
+
+        setTimeout(() => {
+
+            goToPage(1);
+
+        }, 450);
 
     }
+
+}, 13);
+
+
+/* ==================================================
+   도망가는 싫어 버튼
+================================================== */
+
+const runawayMessages = [
+
+    "진짜로 싫어?!",
+    "눌러보던가ㅋ",
+    "안 돼😋",
+    "못 누르지롱",
+    "안 잡힐거야~",
+    "거절합니다!"
+
+];
+
+
+function resetRunawayButton() {
+
+    runawayCount = 0;
+
+    const button =
+        document.getElementById("runawayButton");
+
+    if (!button) return;
+
+    button.style.transform =
+        "translateX(-50%) translateY(0)";
+
+    button.innerText = "싫어";
 
 }
 
 
-/* =========================================
-   싫어 버튼 도망
-========================================= */
+/* 마우스를 올렸을 때 */
+
+document.addEventListener("mouseover", function(e) {
+
+    if (
+        e.target &&
+        e.target.id === "runawayButton"
+    ) {
+
+        moveRunawayButton();
+    }
+
+});
+
+
+/* 모바일 터치 */
+
+document.addEventListener("touchstart", function(e) {
+
+    if (
+        e.target &&
+        e.target.id === "runawayButton"
+    ) {
+
+        e.preventDefault();
+
+        moveRunawayButton();
+    }
+
+}, { passive: false });
+
 
 function moveRunawayButton() {
 
     const button =
-        document.getElementById(
-            "runawayNo"
-        );
-
+        document.getElementById("runawayButton");
 
     if (!button) return;
 
 
+    button.innerText =
+        runawayMessages[
+            runawayCount %
+            runawayMessages.length
+        ];
+
     runawayCount++;
 
 
-    const maxX = 120;
-
-    const maxY = 110;
-
-
     const x =
-        Math.random() * maxX
-        - maxX / 2;
-
+        Math.floor(Math.random() * 220) - 110;
 
     const y =
-        Math.random() * maxY
-        - maxY / 2;
+        Math.floor(Math.random() * 100) - 50;
 
 
     button.style.transform =
-        `translate(${x}px,${y}px)`;
-
-
-    const messages = [
-
-        "싫어🤪",
-
-        "진짜 싫어🤪",
-
-        "잡아봐ㅋㅋ",
-
-        "안 돼😝",
-
-        "싫다니까!",
-
-        "못 누르지롱",
-
-        "ㅋㅋㅋㅋ",
-
-        "안 잡히지롱🏃",
-
-        "거절합니다🙅",
-
-        "도망갈게🏃💨"
-
-    ];
-
-
-    button.innerText =
-        messages[
-            runawayCount %
-            messages.length
-        ];
+        `translate(calc(-50% + ${x}px), ${y}px)`;
 
 }
 
 
-/* =========================================
-   날짜
-========================================= */
+/* ==================================================
+   날짜 선택
+================================================== */
 
-function selectDate(
-    date,
-    button
-) {
-
-    selectedDate = date;
-
+function selectDate(button) {
 
     document
-        .querySelectorAll(
-            ".choice-btn"
-        )
-        .forEach(
-            btn => {
+        .querySelectorAll(".date-btn")
+        .forEach(btn => {
+            btn.classList.remove("selected");
+        });
 
-                btn.classList.remove(
-                    "selected"
-                );
+    button.classList.add("selected");
 
-            }
-        );
-
-
-    button.classList.add(
-        "selected"
-    );
-
+    selectedDate =
+        button.dataset.date;
 }
 
 
-/* =========================================
-   시간 버튼
-========================================= */
+/* ==================================================
+   시간 생성
+   오후 8시 ~ 오전 3시
+================================================== */
 
 function createTimeButtons() {
 
     const grid =
-        document.getElementById(
-            "timeGrid"
-        );
+        document.getElementById("timeGrid");
+
+    grid.innerHTML = "";
 
 
-    if (
-        grid.children.length > 0
-    ) return;
+    const times = [
+
+        {
+            value: "오후 8시",
+            hour: 20
+        },
+
+        {
+            value: "오후 9시",
+            hour: 21
+        },
+
+        {
+            value: "오후 10시",
+            hour: 22
+        },
+
+        {
+            value: "오후 11시",
+            hour: 23
+        },
+
+        {
+            value: "오전 12시",
+            hour: 0
+        },
+
+        {
+            value: "오전 1시",
+            hour: 1
+        },
+
+        {
+            value: "오전 2시",
+            hour: 2
+        },
+
+        {
+            value: "오전 3시",
+            hour: 3
+        }
+
+    ];
 
 
-    for (
-        let hour = 12;
-        hour <= 23;
-        hour++
-    ) {
+    times.forEach(time => {
 
         const button =
-            document.createElement(
-                "button"
-            );
-
+            document.createElement("button");
 
         button.className =
             "time-btn";
 
-
-        let displayHour;
-
-
-        if (hour === 12) {
-
-            displayHour =
-                "오후 12시";
-
-        } else {
-
-            displayHour =
-                `오후 ${hour - 12}시`;
-
-        }
-
-
         button.innerText =
-            displayHour;
+            time.value;
 
+        button.onclick = function() {
 
-        button.onclick =
-            function() {
+            document
+                .querySelectorAll(".time-btn")
+                .forEach(btn => {
+                    btn.classList.remove("selected");
+                });
 
-                selectedTime =
-                    displayHour;
+            button.classList.add("selected");
 
+            selectedTime =
+                time.value;
+        };
 
-                document
-                    .querySelectorAll(
-                        ".time-btn"
-                    )
-                    .forEach(
-                        btn => {
+        grid.appendChild(button);
 
-                            btn.classList
-                                .remove(
-                                    "selected"
-                                );
-
-                        }
-                    );
-
-
-                button.classList.add(
-                    "selected"
-                );
-
-            };
-
-
-        grid.appendChild(
-            button
-        );
-
-    }
+    });
 
 }
 
 
-/* =========================================
-   날짜 / 시간 확인
-========================================= */
+/* ==================================================
+   날짜 / 시간 → 게임 선택
+================================================== */
 
-function confirmDateTime() {
+function nextToGame() {
 
     if (!selectedDate) {
 
-        alert(
-            "날짜부터 골라줘! 📅"
-        );
+        alert("날짜를 골라줘!");
 
         return;
-
     }
 
 
     if (!selectedTime) {
 
-        alert(
-            "시간도 골라줘! ⏰"
-        );
+        alert("시간을 골라줘!");
 
         return;
-
     }
 
 
     goToPage(4);
+}
+
+
+/* ==================================================
+   게임 데이터
+================================================== */
+
+const games = [
+
+    {
+        name: "발로란트",
+        memo: "캐리는 못해도 트레이드 내줄게 🔫"
+    },
+
+    {
+        name: "배틀 그라운드",
+        memo: "치킨은 못 먹어도 살아남아볼게 🍗"
+    },
+
+    {
+        name: "리그오브레전드",
+        memo: "너가 어느 라인을 가도 서포터가 돼줄게 ✨️"
+    },
+
+    {
+        name: "롤토체스",
+        memo: "필요한 덱 있으면 내가 다 팔아버릴게 💵"
+    },
+
+    {
+        name: "오버워치",
+        memo: "전용 힐러가 되어줄 수 있긴한데... 💉"
+    },
+
+    {
+        name: "로블록스",
+        memo: "오늘은 나도 잼민이가 되어줄게 🧱"
+    }
+
+];
+
+
+/* ==================================================
+   게임 버튼 생성
+================================================== */
+
+function createGameButtons() {
+
+    const grid =
+        document.getElementById("gameGrid");
+
+    grid.innerHTML = "";
+
+    selectedGames = [];
+
+
+    games.forEach((game, index) => {
+
+        const button =
+            document.createElement("button");
+
+        button.className =
+            "game-btn";
+
+        button.innerText =
+            game.name;
+
+        button.dataset.index =
+            index;
+
+
+        button.onclick = function() {
+
+            toggleGame(
+                index,
+                button
+            );
+
+        };
+
+
+        grid.appendChild(button);
+
+    });
+
+
+    document.getElementById("gameMemo").innerText =
+        "원하는 게임 하나 이상 골라봐";
 
 }
 
 
-/* =========================================
-   게임별 메모
-========================================= */
-
-const gameNotes = {
-
-    "발로란트":
-        "캐리는 못해도 트레이드 내줄게 🔫",
-
-    "배틀 그라운드":
-        "치킨은 못 먹어도 살아남아볼게 🍗",
-
-    "리그오브레전드":
-        "너가 어느 라인을 가도 서포터가 돼줄게 ✨️",
-
-    "롤토체스":
-        "필요한 덱 있으면 내가 다 팔아버릴게 💵",
-
-    "오버워치":
-        "전용 힐러가 되어줄 수 있긴한데... 💉",
-
-    "로블록스":
-        "오늘은 나도 잼민이가 되어줄게 🧱"
-
-};
-
-
-/* =========================================
+/* ==================================================
    게임 선택
-========================================= */
+================================================== */
 
-function selectGame(
-    game,
-    button
-) {
+function toggleGame(index, button) {
 
-    const index =
-        selectedGames.indexOf(
-            game
-        );
+    const game =
+        games[index];
 
 
-    if (index !== -1) {
+    const existingIndex =
+        selectedGames.indexOf(index);
+
+
+    if (existingIndex !== -1) {
 
         selectedGames.splice(
-            index,
+            existingIndex,
             1
         );
 
-
-        button.classList.remove(
-            "selected"
-        );
-
-
-        button
-            .querySelector(
-                ".check"
-            )
-            .innerText = "";
+        button.classList.remove("selected");
 
     }
 
     else {
 
-        selectedGames.push(
-            game
-        );
+        selectedGames.push(index);
 
-
-        button.classList.add(
-            "selected"
-        );
-
-
-        button
-            .querySelector(
-                ".check"
-            )
-            .innerText = "✓";
-
-
-        showGameNote(game);
-
-
-        if (
-            selectedGames.length === 3
-        ) {
-
-            setTimeout(
-                function() {
-
-                    document
-                        .getElementById(
-                            "modalCount"
-                        )
-                        .innerText =
-                        selectedGames.length
-                        + "개";
-
-
-                    document
-                        .getElementById(
-                            "gameModal"
-                        )
-                        .classList.add(
-                            "show"
-                        );
-
-                },
-                250
-            );
-
-        }
+        button.classList.add("selected");
 
     }
 
 
-    document.getElementById(
-        "selectedCount"
-    ).innerText =
-        selectedGames.length
-        + "개";
+    /* 선택된 게임 메모 */
 
+    if (selectedGames.length === 0) {
 
-    updateGameNote();
+        document.getElementById("gameMemo").innerText =
+            "원하는 게임 하나 이상 골라봐";
 
-}
+    }
 
+    else {
 
-/* =========================================
-   게임 메모
-========================================= */
+        const latest =
+            selectedGames[
+                selectedGames.length - 1
+            ];
 
-function showGameNote(game) {
-
-    const note =
-        document.getElementById(
-            "gameNote"
-        );
-
-
-    note.innerHTML =
-        `
-        <strong>${game}</strong><br>
-        ${gameNotes[game]}
-        `;
-
-}
-
-
-/* =========================================
-   메모 업데이트
-========================================= */
-
-function updateGameNote() {
-
-    const note =
-        document.getElementById(
-            "gameNote"
-        );
-
-
-    if (
-        selectedGames.length === 0
-    ) {
-
-        note.innerHTML =
-            "원하는 게임을 하나 이상 골라봐 👀";
-
-        return;
+        document.getElementById("gameMemo").innerText =
+            games[latest].memo;
 
     }
 
 
-    const lastGame =
-        selectedGames[
-            selectedGames.length - 1
-        ];
+    /* 3개 이상 */
 
+    if (selectedGames.length === 3) {
 
-    note.innerHTML =
-        `
-        <strong>${lastGame}</strong><br>
-        ${gameNotes[lastGame]}
-        `;
+        document
+            .getElementById("gameModal")
+            .classList.add("show");
+
+    }
 
 }
 
 
-/* =========================================
+/* ==================================================
    모달 닫기
-========================================= */
+================================================== */
 
-function closeModal() {
+function closeGameModal() {
 
     document
-        .getElementById(
-            "gameModal"
-        )
-        .classList.remove(
-            "show"
-        );
+        .getElementById("gameModal")
+        .classList.remove("show");
 
 }
 
 
-/* =========================================
+/* ==================================================
    게임 선택 완료
-========================================= */
+================================================== */
 
 function finishGameSelection() {
 
-    if (
-        selectedGames.length === 0
-    ) {
+    if (selectedGames.length === 0) {
 
-        alert(
-            "게임 하나 정도는 골라줘... 🥹"
-        );
+        alert("게임을 하나 이상 골라줘!");
 
         return;
-
     }
 
 
-    document.getElementById(
-        "finalDate"
-    ).innerText =
-        selectedDate;
+    startInvitationCreation();
+
+}
 
 
-    document.getElementById(
-        "finalTime"
-    ).innerText =
-        selectedTime;
+/* ==================================================
+   초대장 생성 게이지
+================================================== */
 
-
-    document.getElementById(
-        "finalGame"
-    ).innerText =
-        selectedGames.join(
-            " · "
-        );
-
+function startInvitationCreation() {
 
     goToPage(5);
 
-    createFallingEmojis();
+
+    let progress = 0;
+
+    const bar =
+        document.getElementById("createBar");
+
+    const percent =
+        document.getElementById("createPercent");
+
+
+    bar.style.width = "0%";
+
+    percent.innerText = "0%";
+
+
+    const interval =
+        setInterval(() => {
+
+            progress++;
+
+            bar.style.width =
+                progress + "%";
+
+            percent.innerText =
+                progress + "%";
+
+
+            if (progress >= 100) {
+
+                clearInterval(interval);
+
+
+                setTimeout(() => {
+
+                    makeFinalInvitation();
+
+                }, 350);
+
+            }
+
+        }, 15);
 
 }
 
 
-/* =========================================
-   떨어지는 이모지
-========================================= */
+/* ==================================================
+   최종 초대장
+================================================== */
 
-function createFallingEmojis() {
+function makeFinalInvitation() {
+
+    document.getElementById("finalDate").innerText =
+        selectedDate;
+
+
+    document.getElementById("finalTime").innerText =
+        selectedTime;
+
+
+    const gameNames =
+        selectedGames.map(index => games[index].name);
+
+
+    document.getElementById("finalGame").innerText =
+        gameNames.join(" / ");
+
+
+    goToPage(6);
+
+}
+
+
+/* ==================================================
+   떨어지는 이모지
+   ✨ 🌙 ⭐ ⚡ 만 사용
+================================================== */
+
+let fallingInterval = null;
+
+
+function startFallingEmojis() {
+
+    if (fallingInterval) return;
+
 
     const emojis = [
-
-        "💙",
         "✨",
-        "🎮",
-        "⚡",
-        "⭐"
-
+        "🌙",
+        "⭐",
+        "⚡"
     ];
 
 
-    for (
-        let i = 0;
-        i < 15;
-        i++
-    ) {
+    fallingInterval =
+        setInterval(() => {
 
-        const emoji =
-            document.createElement(
-                "div"
-            );
+            createFallingEmoji(emojis);
 
-
-        emoji.className =
-            "falling";
-
-
-        emoji.innerText =
-            emojis[
-                Math.floor(
-                    Math.random()
-                    * emojis.length
-                )
-            ];
-
-
-        emoji.style.left =
-            Math.random()
-            * 100
-            + "vw";
-
-
-        emoji.style.fontSize =
-            (
-                14 +
-                Math.random() * 14
-            )
-            + "px";
-
-
-        emoji.style.animationDuration =
-            (
-                3 +
-                Math.random() * 4
-            )
-            + "s";
-
-
-        emoji.style.animationDelay =
-            Math.random() * 2
-            + "s";
-
-
-        document.body.appendChild(
-            emoji
-        );
-
-
-        setTimeout(
-            () => emoji.remove(),
-            8000
-        );
-
-    }
+        }, 700);
 
 }
 
 
-/* =========================================
-   사진 저장
-========================================= */
+function createFallingEmoji(emojis) {
+
+    const element =
+        document.createElement("div");
+
+    element.className =
+        "falling";
+
+
+    element.innerText =
+        emojis[
+            Math.floor(
+                Math.random() *
+                emojis.length
+            )
+        ];
+
+
+    element.style.left =
+        Math.random() * 100 + "vw";
+
+
+    element.style.fontSize =
+        (12 + Math.random() * 12) + "px";
+
+
+    element.style.animationDuration =
+        (4 + Math.random() * 4) + "s";
+
+
+    document.body.appendChild(element);
+
+
+    setTimeout(() => {
+
+        element.remove();
+
+    }, 9000);
+
+}
+
+
+/* ==================================================
+   이미지 저장
+================================================== */
 
 async function saveImage() {
 
     const card =
-        document.querySelector(
-            ".card"
-        );
+        document.getElementById("invitationCard");
+
+    const actions =
+        document.querySelector(".action-buttons");
 
 
-    const actionButtons =
-        document.querySelector(
-            ".action-buttons"
-        );
-
-
-    const previousDisplay =
-        actionButtons.style.display;
-
-
-    actionButtons.style.display =
-        "none";
+    actions.style.display = "none";
 
 
     try {
@@ -2376,143 +1799,105 @@ async function saveImage() {
             await html2canvas(
                 card,
                 {
-
-                    scale: 2,
-
-                    backgroundColor:
-                        "#101827",
-
-                    useCORS: true
-
+                    backgroundColor: "#ffffff",
+                    scale: 2
                 }
             );
 
 
-        canvas.toBlob(
-            async function(blob) {
+        canvas.toBlob(async blob => {
 
-                const file =
-                    new File(
-                        [blob],
-
-                        "게임-초대장.png",
-
-                        {
-                            type:
-                                "image/png"
-                        }
-                    );
-
-
-                if (
-                    navigator.canShare &&
-                    navigator.canShare(
-                        {
-                            files:
-                                [file]
-                        }
-                    )
-                ) {
-
-                    try {
-
-                        await navigator.share(
-                            {
-
-                                files:
-                                    [file],
-
-                                title:
-                                    "게임 초대장"
-
-                            }
-                        );
-
+            const file =
+                new File(
+                    [blob],
+                    "게임-초대장.png",
+                    {
+                        type: "image/png"
                     }
+                );
 
-                    catch (error) {
 
-                        console.log(
-                            "공유 취소"
-                        );
+            if (
+                navigator.share &&
+                navigator.canShare &&
+                navigator.canShare({
+                    files: [file]
+                })
+            ) {
 
-                    }
+                try {
+
+                    await navigator.share({
+                        files: [file],
+                        title: "게임 초대장"
+                    });
 
                 }
 
-                else {
+                catch (error) {
 
-                    const link =
-                        document.createElement(
-                            "a"
-                        );
-
-
-                    link.download =
-                        "게임-초대장.png";
-
-
-                    link.href =
-                        URL.createObjectURL(
-                            blob
-                        );
-
-
-                    link.click();
-
-
-                    URL.revokeObjectURL(
-                        link.href
-                    );
+                    console.log(error);
 
                 }
 
-            },
+            }
 
-            "image/png"
-        );
+            else {
+
+                const link =
+                    document.createElement("a");
+
+                link.download =
+                    "게임-초대장.png";
+
+                link.href =
+                    URL.createObjectURL(blob);
+
+                link.click();
+
+                URL.revokeObjectURL(
+                    link.href
+                );
+
+            }
+
+        });
 
     }
 
     catch (error) {
 
-        alert(
-            "사진 저장에 실패했어 😭"
-        );
+        alert("이미지 저장에 실패했어.");
 
-        console.error(
-            error
-        );
+        console.error(error);
 
     }
 
 
-    actionButtons.style.display =
-        previousDisplay;
+    setTimeout(() => {
+
+        actions.style.display = "flex";
+
+    }, 500);
 
 }
 
 
-/* =========================================
-   링크 공유
-========================================= */
+/* ==================================================
+   초대장 공유
+================================================== */
 
-async function shareLink() {
-
-    const url =
-        window.location.href;
-
+async function sharePage() {
 
     const shareData = {
 
-        title:
-            "게임 초대장",
+        title: "게임 초대장",
 
         text:
-            "같이 게임하자 🎮💙",
+            "나랑 같이 게임 할래?",
 
         url:
-            url
+            window.location.href
 
     };
 
@@ -2531,9 +1916,7 @@ async function shareLink() {
 
         catch (error) {
 
-            console.log(
-                "공유 취소"
-            );
+            console.log(error);
 
         }
 
@@ -2543,23 +1926,20 @@ async function shareLink() {
 
         try {
 
-            await navigator.clipboard
-                .writeText(
-                    url
-                );
-
+            await navigator.clipboard.writeText(
+                window.location.href
+            );
 
             alert(
-                "링크를 복사했어! 🔗"
+                "초대장 링크를 복사했어!"
             );
 
         }
 
         catch (error) {
 
-            prompt(
-                "아래 링크를 복사해줘!",
-                url
+            alert(
+                "링크 복사에 실패했어."
             );
 
         }
@@ -2568,21 +1948,7 @@ async function shareLink() {
 
 }
 
-
-/* =========================================
-   시작
-========================================= */
-
-window.addEventListener(
-    "load",
-    function() {
-
-        startLoading();
-
-    }
-);
-
 </script>
 
 </body>
-      </html>
+</html>
