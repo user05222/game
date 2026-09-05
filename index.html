@@ -6,10 +6,10 @@
 <meta charset="UTF-8">
 
 <meta name="viewport"
-      content="width=device-width,
-               initial-scale=1.0,
-               maximum-scale=1.0,
-               user-scalable=no">
+content="width=device-width,
+initial-scale=1.0,
+maximum-scale=1.0,
+user-scalable=no">
 
 <title>GAME INVITATION SYSTEM</title>
 
@@ -26,15 +26,11 @@
 }
 
 body {
-
     margin: 0;
-
     min-height: 100vh;
 
     display: flex;
-
     justify-content: center;
-
     align-items: center;
 
     font-family:
@@ -63,15 +59,11 @@ body {
 ========================================= */
 
 .card {
-
     width: min(92vw, 420px);
-
     height: min(90vh, 760px);
-
     max-height: 90vh;
 
-    background:
-        rgba(16,24,39,0.97);
+    background: rgba(16,24,39,0.97);
 
     border:
         1px solid
@@ -88,11 +80,8 @@ body {
     overflow: visible;
 
     box-shadow:
-        0 20px 60px
-        rgba(0,0,0,0.55),
-
-        0 0 40px
-        rgba(40,120,220,0.08);
+        0 20px 60px rgba(0,0,0,0.55),
+        0 0 40px rgba(40,120,220,0.08);
 }
 
 
@@ -101,7 +90,6 @@ body {
 ========================================= */
 
 .page {
-
     display: none;
 
     animation:
@@ -113,48 +101,178 @@ body {
 }
 
 .page.active {
-
     display: block;
 }
-
-
-/* 2페이지 도망 버튼 */
 
 #page2 {
     overflow: visible;
 }
 
-
-/* 마지막 페이지 스크롤 */
-
 #page5 {
-
     overflow-y: auto;
-
     overflow-x: hidden;
-
     padding-right: 4px;
-
     -webkit-overflow-scrolling: touch;
 }
 
 
-@keyframes fadeIn {
+/* =========================================
+최종 로딩 화면
+========================================= */
 
+#finalLoading {
+    position: absolute;
+    inset: 0;
+
+    height: 100%;
+
+    background:
+        rgba(16,24,39,0.99);
+
+    border-radius: 28px;
+
+    z-index: 100;
+
+    overflow: hidden;
+}
+
+.final-loading-page {
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    padding: 30px;
+}
+
+.final-loading-icon {
+    font-size: 52px;
+
+    margin-bottom: 24px;
+
+    animation:
+        finalGameBounce 0.8s infinite alternate;
+}
+
+@keyframes finalGameBounce {
     from {
-
-        opacity: 0;
-
-        transform:
-            translateY(10px);
+        transform: translateY(0) scale(1);
     }
 
     to {
+        transform: translateY(-8px) scale(1.04);
+    }
+}
 
+.final-loading-title {
+    font-size: 20px;
+    font-weight: 800;
+
+    margin-bottom: 10px;
+}
+
+.final-loading-text {
+    font-size: 13px;
+    color: #7888A3;
+
+    margin-bottom: 24px;
+}
+
+
+/* 로딩 바 */
+
+.final-progress {
+    width: 75%;
+    max-width: 260px;
+
+    height: 7px;
+
+    background: #202A3A;
+
+    border-radius: 20px;
+
+    overflow: hidden;
+
+    margin-bottom: 12px;
+}
+
+.final-progress-bar {
+    width: 0%;
+    height: 100%;
+
+    background:
+        linear-gradient(
+            90deg,
+            #246BCE,
+            #4DA3FF
+        );
+
+    border-radius: 20px;
+
+    box-shadow:
+        0 0 15px
+        rgba(77,163,255,0.7);
+
+    animation:
+        finalProgress 1.5s linear forwards;
+}
+
+@keyframes finalProgress {
+    from {
+        width: 0%;
+    }
+
+    to {
+        width: 100%;
+    }
+}
+
+.final-loading-percent {
+    font-size: 11px;
+    color: #62728D;
+}
+
+.final-loading-dots {
+    margin-top: 16px;
+
+    font-size: 18px;
+
+    letter-spacing: 4px;
+
+    color: #4DA3FF;
+
+    animation:
+        dotsPulse 1s infinite;
+}
+
+@keyframes dotsPulse {
+
+    0%,100% {
+        opacity: 0.3;
+    }
+
+    50% {
         opacity: 1;
+    }
+}
 
-        transform:
-            translateY(0);
+
+/* =========================================
+애니메이션
+========================================= */
+
+@keyframes fadeIn {
+
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
 
@@ -164,9 +282,7 @@ body {
 ========================================= */
 
 h1 {
-
     font-size: 27px;
-
     line-height: 1.4;
 
     margin:
@@ -180,11 +296,9 @@ h1 {
 }
 
 p {
-
     color: #8D9BB5;
 
     font-size: 15px;
-
     line-height: 1.7;
 
     white-space: pre-line;
@@ -192,14 +306,9 @@ p {
     margin-bottom: 25px;
 }
 
-
-/* 첫 페이지 */
-
 #page1 p {
-
     margin-top: 6px;
-
-    margin-bottom: 35px;
+    margin-bottom: 48px;
 }
 
 
@@ -208,7 +317,6 @@ p {
 ========================================= */
 
 .emoji {
-
     font-size: 55px;
 
     margin-bottom: 8px;
@@ -220,15 +328,11 @@ p {
 @keyframes bounce {
 
     0%,100% {
-
-        transform:
-            translateY(0);
+        transform: translateY(0);
     }
 
     50% {
-
-        transform:
-            translateY(-6px);
+        transform: translateY(-6px);
     }
 }
 
@@ -238,16 +342,13 @@ p {
 ========================================= */
 
 button {
-
     border: none;
-
     border-radius: 15px;
 
     padding:
         14px 18px;
 
     font-size: 15px;
-
     font-weight: 700;
 
     cursor: pointer;
@@ -263,13 +364,10 @@ button {
 }
 
 button:active {
-
-    transform:
-        scale(0.96);
+    transform: scale(0.96);
 }
 
 .buttons {
-
     display: flex;
 
     gap: 10px;
@@ -284,7 +382,6 @@ button:active {
 }
 
 .yes {
-
     background:
         linear-gradient(
             135deg,
@@ -302,18 +399,14 @@ button:active {
 }
 
 .yes:hover {
-
     box-shadow:
         0 8px 25px
         rgba(77,163,255,0.35);
 }
 
 .no {
-
     background: #202A3A;
-
     color: #AAB7CC;
-
     flex: 1;
 }
 
@@ -323,9 +416,7 @@ button:active {
 ========================================= */
 
 #runawayNo {
-
     position: relative;
-
     z-index: 20;
 
     flex: 1;
@@ -337,17 +428,15 @@ button:active {
 
 
 /* =========================================
-로딩 화면
+첫 로딩
 ========================================= */
 
 .loading-page {
-
     padding:
         15px 5px;
 }
 
 .loading-logo {
-
     font-size: 12px;
 
     letter-spacing: 2.5px;
@@ -364,7 +453,6 @@ button:active {
 }
 
 .loading-emoji {
-
     font-size: 58px;
 
     margin-bottom: 18px;
@@ -377,20 +465,15 @@ button:active {
 @keyframes loadingBounce {
 
     from {
-
-        transform:
-            translateY(0);
+        transform: translateY(0);
     }
 
     to {
-
-        transform:
-            translateY(-8px);
+        transform: translateY(-8px);
     }
 }
 
 .loading-title {
-
     font-size: 21px;
 
     font-weight: 800;
@@ -401,7 +484,6 @@ button:active {
 }
 
 .loading-text {
-
     font-size: 14px;
 
     color: #7888A3;
@@ -410,7 +492,6 @@ button:active {
 }
 
 .progress-box {
-
     width: 100%;
 
     height: 14px;
@@ -425,7 +506,6 @@ button:active {
 }
 
 .progress-bar {
-
     height: 100%;
 
     width: 0%;
@@ -448,92 +528,8 @@ button:active {
 }
 
 .percent {
-
     font-size: 12px;
-
     color: #62728D;
-}
-
-
-/* =========================================
-최종 이동 전 짧은 로딩
-========================================= */
-
-.final-loading-page {
-
-    height: 100%;
-
-    display: flex;
-
-    flex-direction: column;
-
-    justify-content: center;
-
-    align-items: center;
-
-    padding: 20px;
-}
-
-.final-loading-icon {
-
-    font-size: 48px;
-
-    margin-bottom: 18px;
-
-    animation:
-        finalLoadBounce
-        0.7s infinite alternate;
-}
-
-@keyframes finalLoadBounce {
-
-    from {
-        transform: translateY(0);
-    }
-
-    to {
-        transform: translateY(-7px);
-    }
-}
-
-.final-loading-title {
-
-    font-size: 20px;
-
-    font-weight: 800;
-
-    margin-bottom: 8px;
-}
-
-.final-loading-text {
-
-    font-size: 13px;
-
-    color: #7888A3;
-}
-
-.final-loading-dots {
-
-    margin-top: 18px;
-
-    font-size: 20px;
-
-    letter-spacing: 4px;
-
-    animation:
-        dotsPulse
-        1s infinite;
-}
-
-@keyframes dotsPulse {
-
-    0%,100% {
-        opacity: 0.35;
-    }
-
-    50% {
-        opacity: 1;
-    }
 }
 
 
@@ -542,7 +538,6 @@ button:active {
 ========================================= */
 
 .pleading-text {
-
     font-size: 17px;
 
     font-weight: 700;
@@ -551,7 +546,7 @@ button:active {
 
     line-height: 1.8;
 
-    margin-bottom: 40px;
+    margin-bottom: 48px;
 }
 
 
@@ -560,7 +555,6 @@ button:active {
 ========================================= */
 
 .section-title {
-
     font-size: 16px;
 
     font-weight: 800;
@@ -568,7 +562,7 @@ button:active {
     color: #DCE7F8;
 
     margin:
-        26px 0 14px;
+        30px 0 18px;
 }
 
 
@@ -577,7 +571,6 @@ button:active {
 ========================================= */
 
 .choice-grid {
-
     display: grid;
 
     grid-template-columns:
@@ -585,11 +578,10 @@ button:active {
 
     gap: 10px;
 
-    margin-bottom: 25px;
+    margin-bottom: 34px;
 }
 
 .choice-btn {
-
     background: #182233;
 
     color: #AAB7CC;
@@ -600,12 +592,13 @@ button:active {
 
     min-height: 58px;
 
+    height: 58px;
+
     padding:
         10px 5px;
 }
 
 .choice-btn.selected {
-
     background: #122B4C;
 
     color: #5CB0FF;
@@ -620,10 +613,10 @@ button:active {
 
 /* =========================================
 시간
+날짜와 완전히 동일한 크기
 ========================================= */
 
 .time-grid {
-
     display: grid;
 
     grid-template-columns:
@@ -631,11 +624,10 @@ button:active {
 
     gap: 10px;
 
-    margin-bottom: 27px;
+    margin-bottom: 34px;
 }
 
 .time-btn {
-
     background: #182233;
 
     color: #AAB7CC;
@@ -644,21 +636,26 @@ button:active {
         2px solid
         transparent;
 
+    min-height: 58px;
+
+    height: 58px;
+
     padding:
         8px 3px;
-
-    min-height: 43px;
 
     font-size: 13px;
 }
 
 .time-btn.selected {
-
     background: #122B4C;
 
     color: #5CB0FF;
 
     border-color: #4DA3FF;
+
+    box-shadow:
+        0 0 18px
+        rgba(77,163,255,0.15);
 }
 
 
@@ -667,7 +664,6 @@ button:active {
 ========================================= */
 
 .game-grid {
-
     display: grid;
 
     grid-template-columns:
@@ -686,7 +682,6 @@ button:active {
 }
 
 .game-btn {
-
     background: #182233;
 
     color: #DCE7F8;
@@ -703,8 +698,7 @@ button:active {
 
     position: relative;
 
-    padding:
-        8px;
+    padding: 8px;
 
     display: flex;
 
@@ -718,7 +712,6 @@ button:active {
 }
 
 .game-btn.selected {
-
     background: #102B4B;
 
     color: #61B4FF;
@@ -731,11 +724,9 @@ button:active {
 }
 
 .check {
-
     position: absolute;
 
     top: 5px;
-
     right: 7px;
 
     font-size: 13px;
@@ -745,63 +736,95 @@ button:active {
 
 
 /* =========================================
-게임 메모
+게임 대사
+새로운 디자인
 ========================================= */
 
 .game-note {
-
-    min-height: 52px;
+    min-height: 78px;
 
     margin:
-        12px 0 10px;
+        20px 8px 18px;
 
     padding:
-        10px 12px;
+        18px 22px;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    text-align: center;
 
     background:
         linear-gradient(
             135deg,
-            #162238,
-            #111A2A
+            rgba(22,34,56,0.9),
+            rgba(15,25,42,0.95)
         );
 
     border:
         1px solid
-        rgba(77,163,255,0.12);
+        rgba(77,163,255,0.18);
 
-    border-radius: 15px;
+    border-radius: 18px;
 
-    color: #8D9BB5;
+    color: #B8C7DC;
 
-    font-size: 12px;
+    font-size: 13px;
 
-    line-height: 1.5;
+    line-height: 1.7;
+
+    box-shadow:
+        0 8px 25px
+        rgba(0,0,0,0.15),
+
+        inset 0 0 20px
+        rgba(77,163,255,0.025);
 
     animation:
         notePop 0.3s ease;
 }
 
-.game-note strong {
+.game-note::before {
+    content: "“";
 
-    color: #DCE7F8;
+    font-size: 28px;
+
+    color: #4DA3FF;
+
+    opacity: 0.65;
+
+    margin-right: 6px;
+
+    align-self: flex-start;
+}
+
+.game-note::after {
+    content: "”";
+
+    font-size: 28px;
+
+    color: #4DA3FF;
+
+    opacity: 0.65;
+
+    margin-left: 6px;
+
+    align-self: flex-end;
 }
 
 @keyframes notePop {
 
     from {
-
         opacity: 0;
-
-        transform:
-            translateY(5px);
+        transform: translateY(5px);
     }
 
     to {
-
         opacity: 1;
-
-        transform:
-            translateY(0);
+        transform: translateY(0);
     }
 }
 
@@ -811,7 +834,6 @@ button:active {
 ========================================= */
 
 .selected-count {
-
     font-size: 12px;
 
     color: #64738B;
@@ -820,7 +842,6 @@ button:active {
 }
 
 .selected-count strong {
-
     color: #4DA3FF;
 }
 
@@ -830,7 +851,6 @@ button:active {
 ========================================= */
 
 .modal-bg {
-
     display: none;
 
     position: fixed;
@@ -850,12 +870,10 @@ button:active {
 }
 
 .modal-bg.show {
-
     display: flex;
 }
 
 .modal {
-
     width:
         min(90vw,350px);
 
@@ -886,31 +904,22 @@ button:active {
 @keyframes modalPop {
 
     from {
-
         opacity: 0;
-
-        transform:
-            scale(0.85);
+        transform: scale(0.85);
     }
 
     to {
-
         opacity: 1;
-
-        transform:
-            scale(1);
+        transform: scale(1);
     }
 }
 
 .modal-emoji {
-
     font-size: 44px;
-
     margin-bottom: 5px;
 }
 
 .modal h2 {
-
     font-size: 23px;
 
     margin:
@@ -920,7 +929,6 @@ button:active {
 }
 
 .modal p {
-
     font-size: 14px;
 
     line-height: 1.6;
@@ -932,7 +940,6 @@ button:active {
 }
 
 .modal button {
-
     width: 100%;
 
     background:
@@ -951,7 +958,6 @@ button:active {
 ========================================= */
 
 .invitation {
-
     background:
         linear-gradient(
             135deg,
@@ -977,7 +983,6 @@ button:active {
 }
 
 .invitation-title {
-
     font-size: 12px;
 
     letter-spacing: 2px;
@@ -989,13 +994,7 @@ button:active {
     font-weight: 900;
 }
 
-.to {
-
-    display: none;
-}
-
 .info {
-
     display: flex;
 
     justify-content: space-between;
@@ -1015,19 +1014,16 @@ button:active {
 }
 
 .info:last-child {
-
     border-bottom: none;
 }
 
 .info span:first-child {
-
     color: #71819A;
 
     white-space: nowrap;
 }
 
 .info span:last-child {
-
     color: #DCE7F8;
 
     font-weight: 700;
@@ -1041,7 +1037,6 @@ PARTY READY
 ========================================= */
 
 .party-ready {
-
     display: inline-block;
 
     padding:
@@ -1076,7 +1071,6 @@ PARTY READY
 ========================================= */
 
 .final-message {
-
     font-size: 16px;
 
     line-height: 1.8;
@@ -1093,7 +1087,6 @@ PARTY READY
 ========================================= */
 
 .action-buttons {
-
     display: flex;
 
     flex-direction: column;
@@ -1102,14 +1095,11 @@ PARTY READY
 }
 
 .action-buttons button {
-
     width: 100%;
-
     min-height: 44px;
 }
 
 .save {
-
     background:
         linear-gradient(
             135deg,
@@ -1121,7 +1111,6 @@ PARTY READY
 }
 
 .share {
-
     background: #1B2B43;
 
     color: #7EC1FF;
@@ -1132,7 +1121,6 @@ PARTY READY
 }
 
 .edit {
-
     background: #202A3A;
 
     color: #8998AD;
@@ -1144,7 +1132,6 @@ PARTY READY
 ========================================= */
 
 .falling {
-
     position: fixed;
 
     top: -40px;
@@ -1160,14 +1147,12 @@ PARTY READY
 @keyframes fall {
 
     from {
-
         transform:
             translateY(-50px)
             rotate(0deg);
     }
 
     to {
-
         transform:
             translateY(110vh)
             rotate(360deg);
@@ -1189,8 +1174,7 @@ PARTY READY
 PAGE 0 : 첫 로딩
 ========================================= -->
 
-<div class="page active"
-     id="page0">
+<div class="page active" id="page0">
 
     <div class="loading-page">
 
@@ -1234,8 +1218,7 @@ PAGE 0 : 첫 로딩
 PAGE 1
 ========================================= -->
 
-<div class="page"
-     id="page1">
+<div class="page" id="page1">
 
     <div class="emoji">
         🎮
@@ -1278,8 +1261,7 @@ PAGE 1
 PAGE 2
 ========================================= -->
 
-<div class="page"
-     id="page2">
+<div class="page" id="page2">
 
     <div class="emoji">
         😭
@@ -1322,8 +1304,7 @@ PAGE 2
 PAGE 3 : 날짜 / 시간
 ========================================= -->
 
-<div class="page"
-     id="page3">
+<div class="page" id="page3">
 
     <div class="emoji">
         📅
@@ -1334,7 +1315,7 @@ PAGE 3 : 날짜 / 시간
     </h1>
 
     <div class="section-title">
-        날짜를 골라줘 ⚡️
+        날짜를 골라줘 ✨️
     </div>
 
     <div class="choice-grid">
@@ -1374,9 +1355,10 @@ PAGE 3 : 날짜 / 시간
          id="timeGrid">
     </div>
 
+
     <button
         class="yes"
-        style="width:100%; margin-top:4px;"
+        style="width:100%; margin-top:10px;"
         onclick="confirmDateTime()">
 
         다음으로 →
@@ -1390,8 +1372,7 @@ PAGE 3 : 날짜 / 시간
 PAGE 4 : 게임 선택
 ========================================= -->
 
-<div class="page"
-     id="page4">
+<div class="page" id="page4">
 
     <div class="emoji">
         🎮
@@ -1516,8 +1497,7 @@ PAGE 4 : 게임 선택
 PAGE 5 : 최종 초대장
 ========================================= -->
 
-<div class="page"
-     id="page5">
+<div class="page" id="page5">
 
     <h1>
         초대장 💙
@@ -1577,9 +1557,7 @@ PAGE 5 : 최종 초대장
 
 
     <div class="final-message">
-
         캐리는 못하지만 열심히 할게 💪
-
     </div>
 
 
@@ -1615,6 +1593,49 @@ PAGE 5 : 최종 초대장
 
 </div>
 
+
+<!-- =========================================
+최종 초대장 전 로딩
+중요: 반드시 card 안쪽
+========================================= -->
+
+<div class="page" id="finalLoading">
+
+    <div class="final-loading-page">
+
+        <div class="final-loading-icon">
+            🎮
+        </div>
+
+        <div class="final-loading-title">
+            초대장을 만드는 중...
+        </div>
+
+        <div class="final-loading-text">
+            약속 정보를 정리하고 있어요
+        </div>
+
+        <div class="final-progress">
+
+            <div class="final-progress-bar">
+            </div>
+
+        </div>
+
+        <div class="final-loading-percent"
+             id="finalPercent">
+            0%
+        </div>
+
+        <div class="final-loading-dots">
+            • • •
+        </div>
+
+    </div>
+
+</div>
+
+
 </div>
 
 
@@ -1636,17 +1657,12 @@ PAGE 5 : 최종 초대장
         </h2>
 
         <p>
-
             벌써 게임을 세 개 이상 고르셨습니다.<br>
             이 게임을 모두 할 생각이냐?
-
         </p>
 
-        <button
-            onclick="closeModal()">
-
+        <button onclick="closeModal()">
             응, 다 할 거야😎
-
         </button>
 
     </div>
@@ -1662,11 +1678,8 @@ PAGE 5 : 최종 초대장
 ========================================= */
 
 let selectedDate = "";
-
 let selectedTime = "";
-
 let selectedGames = [];
-
 let runawayCount = 0;
 
 
@@ -1679,78 +1692,65 @@ function startLoading() {
     let progress = 0;
 
     const bar =
-        document.getElementById(
-            "progressBar"
-        );
+        document.getElementById("progressBar");
 
     const percent =
-        document.getElementById(
-            "percent"
-        );
+        document.getElementById("percent");
 
     const title =
-        document.getElementById(
-            "loadingTitle"
-        );
+        document.getElementById("loadingTitle");
 
     const text =
-        document.getElementById(
-            "loadingText"
-        );
+        document.getElementById("loadingText");
 
 
     const interval =
-        setInterval(
-            function() {
+        setInterval(function() {
 
-                progress++;
+            progress++;
 
-                bar.style.width =
-                    progress + "%";
+            bar.style.width =
+                progress + "%";
 
-                percent.innerText =
-                    progress + "%";
-
-
-                if (progress === 30) {
-
-                    text.innerText =
-                        "초대장 디자인 불러오는 중...";
-                }
+            percent.innerText =
+                progress + "%";
 
 
-                if (progress === 60) {
+            if (progress === 30) {
 
-                    text.innerText =
-                        "게임 약속 데이터 확인 중...";
-                }
-
-
-                if (progress >= 100) {
-
-                    clearInterval(interval);
-
-                    title.innerText =
-                        "초대 준비 완료!";
-
-                    text.innerText =
-                        "잠시 후 초대장이 열립니다 💌";
+                text.innerText =
+                    "초대장 디자인 불러오는 중...";
+            }
 
 
-                    setTimeout(
-                        function() {
+            if (progress === 60) {
 
-                            goToPage(1);
+                text.innerText =
+                    "게임 약속 데이터 확인 중...";
+            }
 
-                        },
-                        700
-                    );
 
-                }
+            if (progress >= 100) {
 
-            },
-            18
-        );
+                clearInterval(interval);
+
+                title.innerText =
+                    "초대 준비 완료!";
+
+                text.innerText =
+                    "잠시 후 초대장이 열립니다 💌";
+
+
+                setTimeout(function() {
+
+                    goToPage(1);
+
+                },700);
+
+            }
+
+        },18);
+
 }
 
 
@@ -1762,15 +1762,11 @@ function goToPage(pageNumber) {
 
     document
         .querySelectorAll(".page")
-        .forEach(
-            page => {
+        .forEach(page => {
 
-                page.classList.remove(
-                    "active"
-                );
+            page.classList.remove("active");
 
-            }
-        );
+        });
 
 
     const target =
@@ -1782,9 +1778,7 @@ function goToPage(pageNumber) {
     if (!target) return;
 
 
-    target.classList.add(
-        "active"
-    );
+    target.classList.add("active");
 
 
     if (pageNumber === 3) {
@@ -1847,58 +1841,41 @@ function moveRunawayButton() {
 
 
     const safeMinX =
-        Math.max(
-            minLeft,
-            -150
-        );
+        Math.max(minLeft,-150);
 
     const safeMaxX =
-        Math.min(
-            maxLeft,
-            150
-        );
+        Math.min(maxLeft,150);
 
     const safeMinY =
-        Math.max(
-            minTop,
-            -120
-        );
+        Math.max(minTop,-120);
 
     const safeMaxY =
-        Math.min(
-            maxTop,
-            120
-        );
+        Math.min(maxTop,120);
 
 
     const x =
         safeMinX +
-        Math.random()
-        * (safeMaxX - safeMinX);
+        Math.random() *
+        (safeMaxX - safeMinX);
 
 
     const y =
         safeMinY +
-        Math.random()
-        * (safeMaxY - safeMinY);
+        Math.random() *
+        (safeMaxY - safeMinY);
 
 
     button.style.transform =
-        `translate(${x}px, ${y}px)`;
+        `translate(${x}px,${y}px)`;
 
 
     const messages = [
 
         "진짜로 싫어?!",
-
         "눌러보던가ㅋ",
-
         "안 돼😋",
-
         "못 누르지롱",
-
         "안 잡힐거야~",
-
         "거절합니다!"
 
     ];
@@ -1917,32 +1894,23 @@ function moveRunawayButton() {
 날짜
 ========================================= */
 
-function selectDate(
-    date,
-    button
-) {
+function selectDate(date,button) {
 
     selectedDate = date;
 
 
     document
-        .querySelectorAll(
-            ".choice-btn"
-        )
-        .forEach(
-            btn => {
+        .querySelectorAll(".choice-btn")
+        .forEach(btn => {
 
-                btn.classList.remove(
-                    "selected"
-                );
+            btn.classList.remove(
+                "selected"
+            );
 
-            }
-        );
+        });
 
 
-    button.classList.add(
-        "selected"
-    );
+    button.classList.add("selected");
 
 }
 
@@ -1959,81 +1927,69 @@ function createTimeButtons() {
         );
 
 
-    if (
-        grid.children.length > 0
-    ) return;
+    if (grid.children.length > 0)
+        return;
 
 
     const times = [
 
         "오후 10시",
-
         "오후 11시",
-
         "오전 12시",
-
         "오전 1시",
-
         "오전 2시",
-
         "오전 3시"
 
     ];
 
 
-    times.forEach(
-        function(time) {
+    times.forEach(function(time) {
 
-            const button =
-                document.createElement(
-                    "button"
-                );
-
-
-            button.className =
-                "time-btn";
-
-
-            button.innerText =
-                time;
-
-
-            button.onclick =
-                function() {
-
-                    selectedTime =
-                        time;
-
-
-                    document
-                        .querySelectorAll(
-                            ".time-btn"
-                        )
-                        .forEach(
-                            btn => {
-
-                                btn.classList
-                                    .remove(
-                                        "selected"
-                                    );
-
-                            }
-                        );
-
-
-                    button.classList.add(
-                        "selected"
-                    );
-
-                };
-
-
-            grid.appendChild(
-                button
+        const button =
+            document.createElement(
+                "button"
             );
 
-        }
-    );
+
+        button.className =
+            "time-btn";
+
+
+        button.innerText =
+            time;
+
+
+        button.onclick =
+            function() {
+
+                selectedTime =
+                    time;
+
+
+                document
+                    .querySelectorAll(
+                        ".time-btn"
+                    )
+                    .forEach(btn => {
+
+                        btn.classList
+                            .remove(
+                                "selected"
+                            );
+
+                    });
+
+
+                button.classList.add(
+                    "selected"
+                );
+
+            };
+
+
+        grid.appendChild(button);
+
+    });
 
 }
 
@@ -2047,7 +2003,7 @@ function confirmDateTime() {
     if (!selectedDate) {
 
         alert(
-            "날짜부터 골라줘 ⚡️"
+            "날짜부터 골라줘 ✨️"
         );
 
         return;
@@ -2073,6 +2029,7 @@ function confirmDateTime() {
 
 /* =========================================
 게임별 메모
+대사는 기존 그대로
 ========================================= */
 
 const gameNotes = {
@@ -2102,15 +2059,10 @@ const gameNotes = {
 게임 선택
 ========================================= */
 
-function selectGame(
-    game,
-    button
-) {
+function selectGame(game,button) {
 
     const index =
-        selectedGames.indexOf(
-            game
-        );
+        selectedGames.indexOf(game);
 
 
     if (index !== -1) {
@@ -2127,19 +2079,14 @@ function selectGame(
 
 
         button
-            .querySelector(
-                ".check"
-            )
+            .querySelector(".check")
             .innerText = "";
 
     }
 
     else {
 
-        selectedGames.push(
-            game
-        );
-
+        selectedGames.push(game);
 
         button.classList.add(
             "selected"
@@ -2147,33 +2094,26 @@ function selectGame(
 
 
         button
-            .querySelector(
-                ".check"
-            )
+            .querySelector(".check")
             .innerText = "✓";
 
 
         showGameNote(game);
 
 
-        if (
-            selectedGames.length === 3
-        ) {
+        if (selectedGames.length === 3) {
 
-            setTimeout(
-                function() {
+            setTimeout(function() {
 
-                    document
-                        .getElementById(
-                            "gameModal"
-                        )
-                        .classList.add(
-                            "show"
-                        );
+                document
+                    .getElementById(
+                        "gameModal"
+                    )
+                    .classList.add(
+                        "show"
+                    );
 
-                },
-                250
-            );
+            },250);
 
         }
 
@@ -2183,8 +2123,7 @@ function selectGame(
     document.getElementById(
         "selectedCount"
     ).innerText =
-        selectedGames.length
-        + "개";
+        selectedGames.length + "개";
 
 
     updateGameNote();
@@ -2205,9 +2144,7 @@ function showGameNote(game) {
 
 
     note.innerHTML =
-        `
-        ${gameNotes[game]}
-        `;
+        gameNotes[game];
 
 }
 
@@ -2224,9 +2161,7 @@ function updateGameNote() {
         );
 
 
-    if (
-        selectedGames.length === 0
-    ) {
+    if (selectedGames.length === 0) {
 
         note.innerHTML =
             "원하는 게임을 하나 이상 골라봐 👀";
@@ -2243,9 +2178,7 @@ function updateGameNote() {
 
 
     note.innerHTML =
-        `
-        ${gameNotes[lastGame]}
-        `;
+        gameNotes[lastGame];
 
 }
 
@@ -2257,12 +2190,8 @@ function updateGameNote() {
 function closeModal() {
 
     document
-        .getElementById(
-            "gameModal"
-        )
-        .classList.remove(
-            "show"
-        );
+        .getElementById("gameModal")
+        .classList.remove("show");
 
 }
 
@@ -2273,9 +2202,7 @@ function closeModal() {
 
 function finishGameSelection() {
 
-    if (
-        selectedGames.length === 0
-    ) {
+    if (selectedGames.length === 0) {
 
         alert(
             "게임 하나 정도는 골라줘... 🥹"
@@ -2301,12 +2228,8 @@ function finishGameSelection() {
     document.getElementById(
         "finalGame"
     ).innerText =
-        selectedGames.join(
-            " · "
-        );
+        selectedGames.join(" · ");
 
-
-    /* 마지막 초대장 전용 짧은 로딩 */
 
     showFinalLoading();
 
@@ -2314,24 +2237,21 @@ function finishGameSelection() {
 
 
 /* =========================================
-마지막 초대장 전 로딩
+최종 로딩
+버튼 클릭 → 로딩 → 최종 초대장
 ========================================= */
 
 function showFinalLoading() {
 
-    const pages =
-        document.querySelectorAll(
-            ".page"
-        );
+    document
+        .querySelectorAll(".page")
+        .forEach(page => {
 
-
-    pages.forEach(
-        page => {
             page.classList.remove(
                 "active"
             );
-        }
-    );
+
+        });
 
 
     const loading =
@@ -2340,31 +2260,55 @@ function showFinalLoading() {
         );
 
 
-    loading.classList.add(
-        "active"
-    );
+    loading.classList.add("active");
 
 
-    setTimeout(
-        function() {
+    const percent =
+        document.getElementById(
+            "finalPercent"
+        );
 
-            loading.classList.remove(
-                "active"
-            );
 
-            document
-                .getElementById(
-                    "page5"
-                )
-                .classList.add(
-                    "active"
-                );
+    let progress = 0;
 
-            createFallingEmojis();
 
-        },
-        1500
-    );
+    const interval =
+        setInterval(function() {
+
+            progress += 2;
+
+            if (progress > 100)
+                progress = 100;
+
+
+            percent.innerText =
+                progress + "%";
+
+
+            if (progress >= 100) {
+
+                clearInterval(interval);
+
+            }
+
+        },30);
+
+
+    setTimeout(function() {
+
+        loading.classList.remove(
+            "active"
+        );
+
+
+        document
+            .getElementById("page5")
+            .classList.add("active");
+
+
+        createFallingEmojis();
+
+    },1600);
 
 }
 
@@ -2376,12 +2320,10 @@ function showFinalLoading() {
 function createFallingEmojis() {
 
     const emojis = [
-
         "✨",
         "🌙",
         "⭐",
         "⚡"
-
     ];
 
 
@@ -2411,30 +2353,25 @@ function createFallingEmojis() {
 
 
         emoji.style.left =
-            Math.random()
-            * 100
-            + "vw";
+            Math.random() * 100 + "vw";
 
 
         emoji.style.fontSize =
             (
                 14 +
                 Math.random() * 14
-            )
-            + "px";
+            ) + "px";
 
 
         emoji.style.animationDuration =
             (
                 3 +
                 Math.random() * 4
-            )
-            + "s";
+            ) + "s";
 
 
         emoji.style.animationDelay =
-            Math.random() * 2
-            + "s";
+            Math.random() * 2 + "s";
 
 
         document.body.appendChild(
@@ -2516,25 +2453,21 @@ async function saveImage() {
                     navigator.canShare &&
                     navigator.canShare(
                         {
-                            files:
-                                [file]
+                            files: [file]
                         }
                     )
                 ) {
 
                     try {
 
-                        await navigator.share(
-                            {
+                        await navigator.share({
 
-                                files:
-                                    [file],
+                            files: [file],
 
-                                title:
-                                    "게임 초대장"
+                            title:
+                                "게임 초대장"
 
-                            }
-                        );
+                        });
 
                     }
 
@@ -2576,7 +2509,6 @@ async function saveImage() {
                 }
 
             },
-
             "image/png"
         );
 
@@ -2588,9 +2520,7 @@ async function saveImage() {
             "사진 저장에 실패했어 😭"
         );
 
-        console.error(
-            error
-        );
+        console.error(error);
 
     }
 
@@ -2625,9 +2555,7 @@ async function shareLink() {
     };
 
 
-    if (
-        navigator.share
-    ) {
+    if (navigator.share) {
 
         try {
 
@@ -2652,9 +2580,7 @@ async function shareLink() {
         try {
 
             await navigator.clipboard
-                .writeText(
-                    url
-                );
+                .writeText(url);
 
 
             alert(
@@ -2680,48 +2606,3 @@ async function shareLink() {
 /* =========================================
 시작
 ========================================= */
-
-window.addEventListener(
-    "load",
-    function() {
-
-        startLoading();
-
-    }
-);
-
-</script>
-
-
-<!-- =========================================
-마지막 초대장 전 로딩 페이지
-========================================= -->
-
-<div class="page"
-     id="finalLoading">
-
-    <div class="final-loading-page">
-
-        <div class="final-loading-icon">
-            🎮
-        </div>
-
-        <div class="final-loading-title">
-            초대장을 만드는 중...
-        </div>
-
-        <div class="final-loading-text">
-            약속 정보를 정리하고 있어요
-        </div>
-
-        <div class="final-loading-dots">
-            • • •
-        </div>
-
-    </div>
-
-</div>
-
-
-</body>
-</html>
