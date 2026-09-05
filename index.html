@@ -13,10 +13,6 @@ user-scalable=no">
 
 <title>GAME INVITATION SYSTEM</title>
 
-<!--
-    중요:
-    html2canvas가 페이지 전체 로딩을 막지 않도록 defer 사용
--->
 <script
     defer
     src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js">
@@ -113,6 +109,24 @@ body {
 
 #page2 {
     overflow: visible;
+}
+
+#page3 {
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    padding-right: 4px;
+
+    -webkit-overflow-scrolling: touch;
+}
+
+#page4 {
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    padding-right: 4px;
+
+    -webkit-overflow-scrolling: touch;
 }
 
 #page5 {
@@ -648,7 +662,6 @@ button:active {
 
 /* =========================================
 시간
-날짜와 완전히 동일한 크기
 ========================================= */
 
 .time-grid {
@@ -1432,8 +1445,8 @@ PAGE 4 : 게임 선택
     </h1>
 
     <p style="margin-bottom:12px;">
-        하고 싶은 게임을<br>
-        전부 골라봐!
+        하고싶은게임을<br>
+        전부골라봐!
     </p>
 
     <div class="game-grid">
@@ -1738,7 +1751,6 @@ let finalLoadingTimer = null;
 
 /* =========================================
 첫 로딩
-핵심 수정 부분
 ========================================= */
 
 function startLoading() {
@@ -1771,11 +1783,6 @@ function startLoading() {
 
     let progress = 0;
 
-
-    /*
-        혹시 브라우저에서 타이머가 너무 느려져도
-        일정 시간 뒤에는 반드시 다음 페이지로 넘어가도록 함
-    */
 
     const forceMoveTimer =
         setTimeout(function() {
@@ -1901,11 +1908,6 @@ function goToPage(pageNumber) {
 
     }
 
-
-    /*
-        최종 초대장에서 다시 날짜 수정으로 돌아갔을 때
-        게임 모달이 남아있지 않도록 정리
-    */
 
     if (pageNumber === 3) {
 
@@ -2435,10 +2437,6 @@ function showFinalLoading() {
     }
 
 
-    /*
-        기존 타이머가 있다면 제거
-    */
-
     if (finalLoadingTimer) {
 
         clearInterval(
@@ -2449,10 +2447,6 @@ function showFinalLoading() {
 
     }
 
-
-    /*
-        모든 페이지 숨기기
-    */
 
     document
         .querySelectorAll(".page")
@@ -2465,18 +2459,10 @@ function showFinalLoading() {
         });
 
 
-    /*
-        로딩 화면 표시
-    */
-
     loading.classList.add(
         "active"
     );
 
-
-    /*
-        진행률 초기화
-    */
 
     bar.style.width = "0%";
 
@@ -2682,11 +2668,6 @@ async function saveImage() {
 
 
     try {
-
-        /*
-            html2canvas가 아직 준비되지 않은 경우
-            조금 기다린 뒤 다시 확인
-        */
 
         if (typeof html2canvas !== "function") {
 
@@ -2915,40 +2896,24 @@ async function shareLink() {
 
 /* =========================================
 페이지 시작
-핵심 수정
 ========================================= */
 
 function bootGame() {
 
-    /*
-        중복 실행 방지
-    */
-
     if (loadingStarted) {
         return;
     }
-
 
     startLoading();
 
 }
 
 
-/*
-    DOM이 준비되면 바로 시작
-*/
-
 document.addEventListener(
     "DOMContentLoaded",
     bootGame
 );
 
-
-/*
-    혹시 모바일 브라우저에서
-    DOMContentLoaded 이벤트가 이상하게 처리되더라도
-    최대 1.5초 안에는 시작
-*/
 
 setTimeout(
     bootGame,
